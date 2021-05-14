@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'HYFramework-OC_Example' do
+  pod 'HYFramework-OC', :path => '../'
+
+  target 'HYFramework-OC_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
