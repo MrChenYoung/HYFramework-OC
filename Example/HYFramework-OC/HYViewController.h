@@ -8,6 +8,6 @@
 
 @import UIKit;
 
-@interface HYViewController : UIViewController
+@interface HYViewController : HYBaseViewController
 
 @end
