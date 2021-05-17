@@ -66,12 +66,19 @@ Pod::Spec.new do |s|
   # 依赖系统库
   # s.frameworks = 'UIKit', 'MapKit'
   
-  # 开源库依赖库
-  s.dependency 'AFNetworking', '3.2.1'
-  s.dependency 'Masonry'
-  s.dependency 'MBProgressHUD'
-  s.dependency 'MJRefresh'
-  s.dependency 'YYModel'
-  s.dependency 'ZLPhotoBrowser'
+  # 依赖的开源库
+
+  # 网络库
+  s.dependency 'AFNetworking', '~>3.2.1'
+  # 自动布局
+  s.dependency 'Masonry', '~>1.1.0'
+  # 加载蒙板
+  s.dependency 'MBProgressHUD', '~>1.2.0'
+  # tableView刷新控件
+  s.dependency 'MJRefresh', '~>3.5.0'
+  # 字典转模型
+  s.dependency 'YYModel', '~>1.0.4'
+  # 图片选择/预览
+  s.dependency 'ZLPhotoBrowser', '~>3.2.0'
 
 end

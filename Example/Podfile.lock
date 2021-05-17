@@ -15,12 +15,12 @@ PODS:
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
   - HYFramework-OC (1.0.0):
-    - AFNetworking (= 3.2.1)
-    - Masonry
-    - MBProgressHUD
-    - MJRefresh
-    - YYModel
-    - ZLPhotoBrowser
+    - AFNetworking (~> 3.2.1)
+    - Masonry (~> 1.1.0)
+    - MBProgressHUD (~> 1.2.0)
+    - MJRefresh (~> 3.5.0)
+    - YYModel (~> 1.0.4)
+    - ZLPhotoBrowser (~> 3.2.0)
   - Masonry (1.1.0)
   - MBProgressHUD (1.2.0)
   - MJRefresh (3.5.0)
@@ -50,7 +50,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  HYFramework-OC: e360f7f003bcca21563e8a99823a45d448057db7
+  HYFramework-OC: c2fa345838d8212ef374b6d8e29bf95cac820d83
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
