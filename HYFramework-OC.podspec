@@ -58,7 +58,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   # 资源文件
   s.resource_bundles = {
-    'HYFramework' => ['HYFramework/Assets/*.png']
+    'HYFramework-OC' => ['HYFramework-OC/Assets/*.png']
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
