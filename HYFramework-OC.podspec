@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   #spec.platform      = :ios
 
   # 版本号
-  s.version          = '1.1.0'
+  s.version          = '1.2.0'
 
   # 库简短介
   s.summary          = '自定义OC开发工具集'
