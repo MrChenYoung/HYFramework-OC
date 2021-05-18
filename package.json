@@ -4,7 +4,7 @@
   "description": "[![CI Status](https://img.shields.io/travis/mrchenyoung/HYFramework-OC.svg?style=flat)](https://travis-ci.org/mrchenyoung/HYFramework-OC) [![Version](https://img.shields.io/cocoapods/v/HYFramework-OC.svg?style=flat)](https://cocoapods.org/pods/HYFramework-OC) [![License](https://img.shields.io/cocoapods/l/HYFramework-OC.svg?style=flat)](https://cocoapods.org/pods/HYFramework-OC) [![Platform](https://img.shields.io/cocoapods/p/HYFramework-OC.svg?style=flat)](https://cocoapods.org/pods/HYFramework-OC)",
   "main": "index.js",
   "scripts": {
-    "publish": "git add . && git commit -m 'v2.0.0' && git tag 2.0.0 && git push origin master && git push --tags && pod trunk push HYFramework-OC.podspec --allow-warnings --use-libraries",
+    "publish": "git add . && git commit -m 'v1.1.0' && git tag 1.1.0 && git push origin master && git push --tags && pod trunk push HYFramework-OC.podspec --allow-warnings --use-libraries",
     "commit": "git add . && git commit -m 'new' && git push origin master && git push --tags"
   },
   "repository": {

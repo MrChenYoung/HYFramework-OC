@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   #spec.platform      = :ios
 
   # 版本号
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
 
   # 库简短介
   s.summary          = '自定义OC开发工具集'
@@ -56,10 +56,10 @@ Pod::Spec.new do |s|
   
   # 是否支持arc
   s.requires_arc = true
-
-  # s.resource_bundles = {
-  #   'HYFramework' => ['HYFramework/Assets/*.png']
-  # }
+  # 资源文件
+  s.resource_bundles = {
+    'HYFramework' => ['HYFramework/Assets/*.png']
+  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
 
