@@ -50,6 +50,7 @@
 #import "HYTableDataSource.h"
 #import "JRToast.h"
 #import "HYVideoTool.h"
+#import "HYUserSingleton.h"
 #import "HYFormSegmentView.h"
 #import "HYImageView.h"
 #import "HYTextView.h"
