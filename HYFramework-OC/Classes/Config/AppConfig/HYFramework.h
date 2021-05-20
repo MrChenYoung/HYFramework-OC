@@ -71,5 +71,6 @@
 #import "HYDeviceTool.h"
 
 #import "JRToast.h"
+#import "HYUserSingleton.h"
 
 #endif /* HYFramework_h */

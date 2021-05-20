@@ -157,4 +157,8 @@ typedef void (^HYHttpFaultBlock)          (id error);
 typedef void (^HYHttpProgressBlock)       (NSProgress *progress);
 typedef void (^HYTheNetworkStatusBlock)   (NSUInteger status);
 
+#pragma mark - 杂项
+#define HYUserSingletonInstance [HYUserSingleton share]
+
+
 #endif /* HYConstMacro_h */
