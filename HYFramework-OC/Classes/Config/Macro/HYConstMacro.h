@@ -158,7 +158,10 @@ typedef void (^HYHttpProgressBlock)       (NSProgress *progress);
 typedef void (^HYTheNetworkStatusBlock)   (NSUInteger status);
 
 #pragma mark - 杂项
+// 获取用户单利实例
 #define HYUserSingletonInstance [HYUserSingleton share]
+// 获取appdelegate实例
+#define HYAppDelegate (AppDelegate *)[UIApplication sharedApplication].delegate
 
 
 #endif /* HYConstMacro_h */
