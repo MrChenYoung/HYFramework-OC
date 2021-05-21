@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 //地方型号（国际化区域名称）
 + (NSString *)deviceLocalizedModel;
 
+// 打电话
++ (void)callUpPhone:(NSString *)number;
+
 @end
 
 NS_ASSUME_NONNULL_END

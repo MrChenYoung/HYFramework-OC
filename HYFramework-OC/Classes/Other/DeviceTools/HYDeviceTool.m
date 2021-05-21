@@ -6,6 +6,7 @@
 //
 
 #import "HYDeviceTool.h"
+#import "HYAPPTool.h"
 
 @implementation HYDeviceTool
 
@@ -52,6 +53,13 @@
 {
     NSString *localPhoneModel = [[UIDevice currentDevice] localizedModel];
     return localPhoneModel;
+}
+
+// 打电话
++ (void)callUpPhone:(NSString *)number
+{
+    NSString *phone = [NSString stringWithFormat:@"Tel:%@",number];
+    [HYAPPTool openUrl:[NSURL URLWithString:phone]]
 }
 
 @end

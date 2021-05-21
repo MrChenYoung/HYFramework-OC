@@ -42,4 +42,14 @@
     return [appBuildVersion floatValue];
 }
 
+// 打开url
++ (void)openUrl:(NSURL *)url
+{
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        [[UIApplication sharedApplication] openURL:url];
+    }else {
+        NSLog(@"无法打开的url:%@",url);
+    }
+}
+
 @end

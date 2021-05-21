@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 // APP build version
 + (CGFloat)appBuildVersion;
 
+// 打开url
++ (void)openUrl:(NSURL *)url;
+
 @end
 
 NS_ASSUME_NONNULL_END
