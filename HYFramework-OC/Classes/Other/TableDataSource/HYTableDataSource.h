@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 // 数据集合
 @property (nonatomic, strong) NSMutableArray *dataSourceArray;
 
+// 没有数据的时候显示的背景view
+@property (nonatomic, strong) UIView *noneDataBgView;
+
 // 每一行样式
 @property (nonatomic, copy) UITableViewCell* (^cellForRowAtIndexPath)(UITableView *table, NSIndexPath *indexPath);
 

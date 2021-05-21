@@ -13,7 +13,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <MJRefresh/MJRefresh.h>
 #import <YYModel/YYModel.h>
-#import <ZLPhotoBrowser.h>
+#import "ZLPhotoBrowser.h"
 
 // 宏定义
 #import "HYAPIConfig.h"
@@ -72,5 +72,6 @@
 
 #import "JRToast.h"
 #import "HYUserSingleton.h"
+#import "HYIndicatorNormalView.h"
 
 #endif /* HYFramework_h */

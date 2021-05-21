@@ -47,12 +47,16 @@
 #import "HYAPPTool.h"
 #import "HYDeviceTool.h"
 #import "HYJsonTool.h"
+#import "HYNoneDataBgView.h"
 #import "HYTableDataSource.h"
 #import "JRToast.h"
 #import "HYVideoTool.h"
 #import "HYUserSingleton.h"
 #import "HYFormSegmentView.h"
 #import "HYImageView.h"
+#import "HYIndicatorImgView.h"
+#import "HYIndicatorNormalView.h"
+#import "HYIndicatorView.h"
 #import "HYTextView.h"
 
 FOUNDATION_EXPORT double HYFramework_OCVersionNumber;
