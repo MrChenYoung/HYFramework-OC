@@ -43,4 +43,12 @@
     [super updateFlagViewPosition:animate];
 }
 
+// 设置游标背景色
+- (void)setFlagBgColor:(UIColor *)flagBgColor
+{
+    _flagBgColor = flagBgColor;
+    
+    self.flagView.backgroundColor = flagBgColor;
+}
+
 @end

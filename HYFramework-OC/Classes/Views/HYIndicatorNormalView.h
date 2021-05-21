@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HYIndicatorNormalView : HYIndicatorView
 
+// 设置游标背景色
+@property (nonatomic, strong) UIColor *flagBgColor;
+
 @end
 
 NS_ASSUME_NONNULL_END
