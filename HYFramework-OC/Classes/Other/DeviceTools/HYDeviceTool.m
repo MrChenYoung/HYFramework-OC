@@ -59,7 +59,7 @@
 + (void)callUpPhone:(NSString *)number
 {
     NSString *phone = [NSString stringWithFormat:@"Tel:%@",number];
-    [HYAPPTool openUrl:[NSURL URLWithString:phone]]
+    [HYAPPTool openUrl:[NSURL URLWithString:phone]];
 }
 
 @end
