@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 设置游标背景色
 @property (nonatomic, strong) UIColor *flagBgColor;
 
+
 @end
 
 NS_ASSUME_NONNULL_END
