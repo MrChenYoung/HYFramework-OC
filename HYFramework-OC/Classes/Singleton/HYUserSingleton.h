@@ -12,13 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HYUserSingleton : NSObject
 
 // 账号
-@property (nonatomic, copy) NSString *account;
+@property (nonatomic, copy, nullable) NSString *account;
 
 // 用户名
-@property (nonatomic, copy) NSString *userName;
+@property (nonatomic, copy, nullable) NSString *userName;
 
 // token
-@property (nonatomic, copy) NSString *token;
+@property (nonatomic, copy, nullable) NSString *token;
 
 // 是否已经认证
 @property (nonatomic, assign) BOOL ifApprove;
