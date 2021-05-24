@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 是否登录
 @property (nonatomic, assign, getter=isLogin) BOOL login;
 
+#pragma mark - 单利
 + (instancetype)share;
 
 #pragma mark - 其他
