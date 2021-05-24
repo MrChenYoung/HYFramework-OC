@@ -31,13 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 其他
 // 保存用户信息到磁盘
-- (void)saveUserInfoOnDiskComplete:(void (^)(void))complete;
+- (void)saveUserInfoOnDisk;
 
 // 从磁盘读取用户信息
 - (void)readUserInfoFromDisk;
 
 // 清空用户信息（退出登录时使用）
-- (void)clearAllUserInfoComplete:(void (^)(void))complete;
+- (void)clearAllUserInfo;
 
 @end
 
