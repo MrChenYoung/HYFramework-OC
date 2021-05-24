@@ -66,4 +66,25 @@
     self.login = [HYUserDefaultsTool readBoolWithKey:HYUserLoginStateKey];
 }
 
+// 清空用户信息（退出登录时使用）
+- (void)clearAllUserInfo
+{
+    // 账号
+    self.account = nil;
+
+    // 用户名
+    self.userName = nil;
+
+    // token
+    self.token = nil;
+
+    // 是否已经认证
+    self.ifApprove = NO;
+
+    // 是否登录
+    self.login = NO;
+    
+    [self saveUserInfoOnDisk];
+}
+
 @end

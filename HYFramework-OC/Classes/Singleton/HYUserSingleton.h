@@ -36,6 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 // 从磁盘读取用户信息
 - (void)readUserInfoFromDisk;
 
+// 清空用户信息（退出登录时使用）
+- (void)clearAllUserInfo;
+
 @end
 
 NS_ASSUME_NONNULL_END
