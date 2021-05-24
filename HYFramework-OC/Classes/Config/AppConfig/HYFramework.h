@@ -65,6 +65,7 @@
 #import "HYAPPTool.h"
 #import "HYAFttpTool.h"
 #import "HYVideoTool.h"
+#import "HYUserDefaultsTool.h"
 
 #import "HYFileModel.h"
 #import "HYImageVideoModel.h"
@@ -72,6 +73,6 @@
 
 #import "JRToast.h"
 #import "HYUserSingleton.h"
-#import "HYIndicatorNormalView.h"
+//#import "HYIndicatorNormalView.h"
 
 #endif /* HYFramework_h */

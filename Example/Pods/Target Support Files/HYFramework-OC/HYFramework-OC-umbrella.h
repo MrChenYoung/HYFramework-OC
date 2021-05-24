@@ -50,13 +50,14 @@
 #import "HYNoneDataBgView.h"
 #import "HYTableDataSource.h"
 #import "JRToast.h"
+#import "HYUserDefaultsTool.h"
 #import "HYVideoTool.h"
 #import "HYUserSingleton.h"
+#import "HYIndicatorImgView.h"
+#import "HYIndicatorSimpleView.h"
+#import "HYIndicatorView.h"
 #import "HYFormSegmentView.h"
 #import "HYImageView.h"
-#import "HYIndicatorImgView.h"
-#import "HYIndicatorNormalView.h"
-#import "HYIndicatorView.h"
 #import "HYTextView.h"
 
 FOUNDATION_EXPORT double HYFramework_OCVersionNumber;

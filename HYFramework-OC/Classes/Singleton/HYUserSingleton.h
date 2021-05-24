@@ -11,14 +11,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HYUserSingleton : NSObject
 
+// 账号
+@property (nonatomic, copy) NSString *account;
+
+// 用户名
+@property (nonatomic, copy) NSString *userName;
+
 // token
 @property (nonatomic, copy) NSString *token;
+
+// 是否已经认证
+@property (nonatomic, assign) BOOL ifApprove;
 
 // 是否登录
 @property (nonatomic, assign, getter=isLogin) BOOL login;
 
-
 + (instancetype)share;
+
+#pragma mark - 其他
+// 保存用户信息到磁盘
+- (void)saveUserInfoOnDisk;
+
+// 从磁盘读取用户信息
+- (void)readUserInfoFromDisk;
 
 @end
 

@@ -10,6 +10,7 @@
 #import "HYFramework.h"
 #import "HYTestListCell.h"
 #import "HYTestTableViewController.h"
+#import "HYTestIndicatorController.h"
 
 @interface HYViewController ()
 
@@ -74,6 +75,9 @@
             case 4:
                 // 图片浏览器
                 [Weakself imageBrowser];
+                break;
+            case 5:
+                [Weakself testIndicator];
                 break;
             default:
                 break;
@@ -150,6 +154,12 @@
     [UIViewController previewImageVideo:array];
 }
 
+- (void)testIndicator
+{
+    HYTestIndicatorController *ctr = [[HYTestIndicatorController alloc]init];
+    [self.navigationController pushViewController:ctr animated:YES];
+}
+
 
 #pragma mark - 网络
 // 上传文件
@@ -163,7 +173,7 @@
 - (NSArray<HYBaseModel *> *)dataArray
 {
     if (_dataArray == nil) {
-        NSArray *titles = @[@"打开相册",@"打开相机",@"上传文件",@"tableView",@"图片浏览器"];
+        NSArray *titles = @[@"打开相册",@"打开相机",@"上传文件",@"tableView",@"图片浏览器",@"indicator"];
         NSMutableArray *arrM = [NSMutableArray array];
         for (int i = 0; i < titles.count; i++) {
             NSString *t = titles[i];

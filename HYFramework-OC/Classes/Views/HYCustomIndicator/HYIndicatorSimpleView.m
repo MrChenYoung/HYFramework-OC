@@ -6,10 +6,10 @@
 //  Copyright © 2021 Zhen. All rights reserved.
 //
 
-#import "HYIndicatorNormalView.h"
+#import "HYIndicatorSimpleView.h"
 #import "HYFramework.h"
 
-@implementation HYIndicatorNormalView
+@implementation HYIndicatorSimpleView
 
 - (void)setupFlagView
 {
@@ -37,7 +37,7 @@
     [self getFlagLeftMargin];
 
     [self layoutIfNeeded];
-    self.flagLeftMargin = self.flagLeftMargin - ([self btnWidthWithIndex:0] * 0.5) - self.flagView.hy_width * 0.5;
+//    self.flagLeftMargin = self.flagLeftMargin - ([self btnWidthWithIndex:0] * 0.5) - self.flagView.hy_width * 0.5;
     
     // 调用父类方法更新flag
     [super updateFlagViewPosition:animate];

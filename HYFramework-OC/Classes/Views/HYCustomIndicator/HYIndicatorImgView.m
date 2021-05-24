@@ -48,14 +48,14 @@
     self.flagTopConstrain = 15;
     
     // 游标距离屏幕左边的距离(默认在第一个按钮附近)
-    self.flagLeftMargin = [self getFlagLeftMargin];
+//    self.flagLeftMargin = [self getFlagLeftMargin];
 }
 
 // 更新游标的位置
 - (void)updateFlagViewPosition:(BOOL)animate
 {
     [self getFlagLeftMargin];
-    self.flagLeftMargin -= self.flagSize;
+//    self.flagLeftMargin -= self.flagSize;
     
     // 调用父类方法更新flag
     [super updateFlagViewPosition:animate];

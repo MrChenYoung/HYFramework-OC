@@ -12,12 +12,6 @@
 
 @interface HYIndicatorView ()
 
-// 父视图
-@property (nonatomic, weak) UIView *superV;
-
-// 上约束值
-@property (nonatomic, assign) CGFloat topConstrain;
-
 // contentView
 @property (nonatomic, weak) UIView *contenView;
 
@@ -33,25 +27,16 @@
 // 当前选中的按钮索引(默认选中第一个)
 @property (nonatomic, assign) NSInteger currentSelectIndex;
 
-// 按钮宽度集合
-@property (nonatomic, copy) NSArray *btnWidthsArray;
-
 @end
 
 @implementation HYIndicatorView
 
 #pragma mark - 初始化
-- (instancetype)initWithSuperView:(UIView *)superView
-                     topConstrain:(CGFloat)topConstrain
-                           titles:(NSArray *)titles
-                            icons:(NSArray *)icons
+- (instancetype)initWithTitles:(NSArray *)titles
 {
     self = [super init];
     if (self) {
         self.titlesArray = titles;
-        self.iconsArray = icons;
-        self.superV = superView;
-        self.topConstrain = topConstrain;
         
         // 设置默认常量值
         [self setupDefaltConst];
@@ -68,11 +53,6 @@
 {
     // 添加约束
     self.backgroundColor = [UIColor clearColor];
-    [self.superV addSubview:self];
-    [self mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.topConstrain);
-        make.left.right.equalTo(self.superV);
-    }];
     
     // 设置contentView
     UIView *contenView = UIView.new;
@@ -80,15 +60,7 @@
     [self addSubview:contenView];
     self.contenView = contenView;
     [contenView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.leftMargin);
-        make.right.mas_equalTo(-self.rightMargin);
-        make.top.bottom.equalTo(self);
-        make.height.mas_equalTo(self.indicatorHeight);
-    }];
-    
-    // 设置高度约束
-    [self mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(self.indicatorHeight);
+        make.left.right.top.equalTo(self);
     }];
     
     // 添加按钮
@@ -101,44 +73,45 @@
 // 设置按钮
 - (void)setupBtns
 {
-    WeakSelf
-    [self updateBtnsWidthBlock:^(int index, CGFloat btnLeft, CGFloat btnW, NSString *iconN) {
-        // 按钮文本
-        NSString *t = Weakself.titlesArray[index];
+    UIButton *lastBtn = nil;
+    for (int i = 0; i < self.titlesArray.count; i++) {
+        // 计算按钮文本宽度
+        NSString *t = self.titlesArray[i];
+        CGFloat textW = [t widthWithFont:self.btnFont] + 5;
         
         // 创建按钮
         UIButton *btn = UIButton.new;
-        btn.tag = 1000 + index;
+        btn.tag = 1000 + i;
         [btn setTitle:t forState:UIControlStateNormal];
         [btn setTitleColor:self.titleNormalColor forState:UIControlStateNormal];
         [btn setTitleColor:self.titleSelectColor forState:UIControlStateSelected];
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         btn.titleLabel.font = self.btnFont;
         
-        // 设置按钮icon
-        [Weakself updateBtnIcon:iconN btn:btn];
-       
         // 按钮添加约束
         [self.contenView addSubview:btn];
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.equalTo(self.contenView);
-            make.left.mas_equalTo(btnLeft);
-            make.width.mas_equalTo(btnW);
+            if (lastBtn) {
+                make.left.equalTo(lastBtn.mas_right).mas_equalTo(self.btnMargin);
+            }else {
+                make.left.equalTo(self.contenView);
+            }
+//            make.width.mas_equalTo(btnW);
+            if (i == self.titlesArray.count - 1) {
+                // 最后一个按钮
+                make.right.equalTo(self.contenView);
+            }
         }];
         
-        // 最后一个按钮右边约束设置
-        if (index == Weakself.titlesArray.count - 1) {
-            [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(self.contenView);
-            }];
+        // 默认选中第一个
+        if (i == 0) {
+            btn.selected = YES;
+            self.currentSelectedBtn = btn;
         }
         
-        // 默认选中第一个
-        if (index == 0) {
-            btn.selected = YES;
-            Weakself.currentSelectedBtn = btn;
-        }
-    }];
+        lastBtn = btn;
+    }
 }
 
 // 设置游标
@@ -171,15 +144,8 @@
 {
     // 当前选中的按钮索引(默认选中第一个)
     self.currentSelectIndex = 0;
-    
-    // 整个indicator距离左右屏幕宽度(默认10)
-    self.leftMargin = self.rightMargin = 10;
     // 相邻两个按钮间隔(默认20)
     self.btnMargin = 20;
-    // 按钮icon和文本间隔(默认20)
-    self.btnIconTitleMargin = 20;
-    // 整个indicator高度(默认50)
-    self.indicatorHeight = 50;
     // 按钮字体(默认 [UIFont systemFontOfSize:14])
     self.btnFont = [UIFont systemFontOfSize:14];
     
@@ -195,31 +161,7 @@
 // 更新按钮宽度
 - (void)updateBtnsWidthBlock:(void(^)(int index,CGFloat btnLeft, CGFloat btnW, NSString *iconN))btnBlock
 {
-    NSMutableArray *arrM = [NSMutableArray array];
-    CGFloat btnLeft = 0;
-    for (int i = 0; i < self.titlesArray.count; i++) {
-        // 计算按钮文本宽度
-        NSString *t = self.titlesArray[i];
-        CGFloat textW = [t widthWithFont:self.btnFont] + 5;
-        
-        // 如果按钮有icon
-        NSString *iconName = nil;
-        if (self.iconsArray.count > 0 && i < self.iconsArray.count) {
-            iconName = self.iconsArray[i];
-        }
-        if (iconName) {
-            textW += (self.indicatorHeight - 20 + self.btnIconTitleMargin);
-        }
-        
-        // 创建并设置按钮
-        if (btnBlock) {
-            btnBlock(i,btnLeft,textW,iconName);
-        }
-        
-        btnLeft += (textW + self.btnMargin);
-        [arrM addObject:@(textW)];
-    }
-    self.btnWidthsArray = [arrM copy];
+    
 }
 
 // 更新按钮icon
@@ -227,7 +169,7 @@
 {
     if (iconName.length > 0) {
         [btn setImage:[UIImage imageNamed:iconName] forState:UIControlStateNormal];
-        btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, self.btnIconTitleMargin);
+//        btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, self.btnIconTitleMargin);
     }
 }
 
@@ -241,14 +183,14 @@
         // 动画改变游标位置
         [UIView animateWithDuration:0.2 animations:^{
             [self.flagView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(self.flagLeftMargin);
+//                make.left.mas_equalTo(self.flagLeftMargin);
             }];
             // masory动画这一行必须加
             [self layoutIfNeeded];
         } completion:nil];
     }else {
         [self.flagView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.flagLeftMargin);
+//            make.left.mas_equalTo(self.flagLeftMargin);
         }];
     }
 }
@@ -256,30 +198,32 @@
 // 计算左边约束间距
 - (CGFloat)getFlagLeftMargin
 {
-    CGFloat leftConstrain = self.leftMargin;
-    for (int i = 0; i < self.currentSelectIndex + 1; i++) {
-        CGFloat w = 0;
-        if (i < self.btnWidthsArray.count) {
-            w = [self.btnWidthsArray[i] floatValue];
-            
-            if (i != self.currentSelectIndex) {
-                w += self.btnMargin;
-            }
-        }
-        leftConstrain += w;
-    }
+//    CGFloat leftConstrain = self.leftMargin;
+//    for (int i = 0; i < self.currentSelectIndex + 1; i++) {
+//        CGFloat w = 0;
+//        if (i < self.btnWidthsArray.count) {
+//            w = [self.btnWidthsArray[i] floatValue];
+//
+//            if (i != self.currentSelectIndex) {
+//                w += self.btnMargin;
+//            }
+//        }
+//        leftConstrain += w;
+//    }
+//
+//    self.flagLeftMargin = leftConstrain;
+//    return self.flagLeftMargin;
     
-    self.flagLeftMargin = leftConstrain;
-    return self.flagLeftMargin;
+    return 0;
 }
 
 // 获取指定btn的宽度
 - (CGFloat)btnWidthWithIndex:(int)index
 {
     CGFloat btnW = 0;
-    if (index < self.btnWidthsArray.count) {
-        btnW = [self.btnWidthsArray[index] floatValue];
-    }
+//    if (index < self.btnWidthsArray.count) {
+//        btnW = [self.btnWidthsArray[index] floatValue];
+//    }
     return btnW;
 }
 
@@ -291,34 +235,34 @@
  */
 - (void)resetBtnWidth:(CGFloat)width btn:(UIButton *)btn index:(int)index
 {
-    if (btn == nil) {
-        if (index < self.btnWidthsArray.count) {
-            btn = self.btnWidthsArray[index];
-        }
-    }
-    
-    if (btn) {
-        // 计算btn左边距离屏幕宽度
-        CGFloat leftConstrain = 0;
-        for (int i = 0; i < index; i++) {
-            leftConstrain += ([self.btnWidthsArray[i] floatValue] + self.btnMargin);
-        }
-        
-        [btn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(width);
-            make.left.mas_equalTo(leftConstrain);
-        }];
-        
-        if (index < self.btnWidthsArray.count) {
-            // 更新btn宽度集合
-            NSMutableArray *arrM = [NSMutableArray arrayWithArray:self.btnWidthsArray];
-            [arrM replaceObjectAtIndex:index withObject:@(width)];
-            self.btnWidthsArray = [arrM copy];
-        }
-    }
-    
-    // 更新游标位置
-    [self updateFlagViewPosition:NO];
+//    if (btn == nil) {
+//        if (index < self.btnWidthsArray.count) {
+//            btn = self.btnWidthsArray[index];
+//        }
+//    }
+//
+//    if (btn) {
+//        // 计算btn左边距离屏幕宽度
+//        CGFloat leftConstrain = 0;
+//        for (int i = 0; i < index; i++) {
+//            leftConstrain += ([self.btnWidthsArray[i] floatValue] + self.btnMargin);
+//        }
+//
+//        [btn mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.width.mas_equalTo(width);
+//            make.left.mas_equalTo(leftConstrain);
+//        }];
+//
+//        if (index < self.btnWidthsArray.count) {
+//            // 更新btn宽度集合
+//            NSMutableArray *arrM = [NSMutableArray arrayWithArray:self.btnWidthsArray];
+//            [arrM replaceObjectAtIndex:index withObject:@(width)];
+//            self.btnWidthsArray = [arrM copy];
+//        }
+//    }
+//
+//    // 更新游标位置
+//    [self updateFlagViewPosition:NO];
 }
 
 /**
@@ -426,71 +370,71 @@
 }
 
 // 按钮icon和文本间隔(默认20)
-- (void)setBtnIconTitleMargin:(CGFloat)btnIconTitleMargin
-{
-    _btnIconTitleMargin = btnIconTitleMargin;
-    
-    // 设置默认值的时候不执行下面代码
-    if (self.contenView == nil) return;
-    
-    WeakSelf
-    NSArray *btns = [self.contenView subviewsWithClass:[UIButton class]];
-    [self updateBtnsWidthBlock:^(int index, CGFloat btnLeft, CGFloat btnW, NSString *iconN) {
-        UIButton *btn = btns[index];
-        
-        // 更新按钮icon
-        [Weakself updateBtnIcon:iconN btn:btn];
-        
-        [btn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(btnLeft);
-            make.width.mas_equalTo(btnW);
-        }];
-    }];
-}
+//- (void)setBtnIconTitleMargin:(CGFloat)btnIconTitleMargin
+//{
+//    _btnIconTitleMargin = btnIconTitleMargin;
+//
+//    // 设置默认值的时候不执行下面代码
+//    if (self.contenView == nil) return;
+//
+//    WeakSelf
+//    NSArray *btns = [self.contenView subviewsWithClass:[UIButton class]];
+//    [self updateBtnsWidthBlock:^(int index, CGFloat btnLeft, CGFloat btnW, NSString *iconN) {
+//        UIButton *btn = btns[index];
+//
+//        // 更新按钮icon
+//        [Weakself updateBtnIcon:iconN btn:btn];
+//
+//        [btn mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.left.mas_equalTo(btnLeft);
+//            make.width.mas_equalTo(btnW);
+//        }];
+//    }];
+//}
 
 // 整个indicator距离左右屏幕宽度
-- (void)setLeftMargin:(CGFloat)leftMargin
-{
-    _leftMargin = leftMargin;
-    
-    // 设置默认值的时候不执行下面代码
-    if (self.contenView == nil) return;
-    
-    // 更新游标位置
-    [self updateFlagViewPosition:NO];
-    
-    [self.contenView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).mas_offset(leftMargin);
-    }];
-}
-- (void)setRightMargin:(CGFloat)rightMargin
-{
-    _rightMargin = rightMargin;
-    
-    // 设置默认值的时候不执行下面代码
-    if (self.contenView == nil) return;
-    
-    [self.contenView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self).mas_offset(-rightMargin);
-    }];
-}
-
-// 整个indicator高度(默认50)
--(void)setIndicatorHeight:(CGFloat)indicatorHeight
-{
-    _indicatorHeight = indicatorHeight;
-    
-    // 设置默认值的时候不执行下面代码
-    if (self.contenView == nil) return;
-    
-    // contentView高度
-    [self.contenView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(indicatorHeight);
-    }];
-    // 设置self高度
-    [self mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(indicatorHeight);
-    }];
-}
+//- (void)setLeftMargin:(CGFloat)leftMargin
+//{
+//    _leftMargin = leftMargin;
+//    
+//    // 设置默认值的时候不执行下面代码
+//    if (self.contenView == nil) return;
+//    
+//    // 更新游标位置
+//    [self updateFlagViewPosition:NO];
+//    
+//    [self.contenView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self).mas_offset(leftMargin);
+//    }];
+//}
+//- (void)setRightMargin:(CGFloat)rightMargin
+//{
+//    _rightMargin = rightMargin;
+//    
+//    // 设置默认值的时候不执行下面代码
+//    if (self.contenView == nil) return;
+//    
+//    [self.contenView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(self).mas_offset(-rightMargin);
+//    }];
+//}
+//
+//// 整个indicator高度(默认50)
+//-(void)setIndicatorHeight:(CGFloat)indicatorHeight
+//{
+//    _indicatorHeight = indicatorHeight;
+//    
+//    // 设置默认值的时候不执行下面代码
+//    if (self.contenView == nil) return;
+//    
+//    // contentView高度
+//    [self.contenView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.height.mas_equalTo(indicatorHeight);
+//    }];
+//    // 设置self高度
+//    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.height.mas_equalTo(indicatorHeight);
+//    }];
+//}
 
 @end

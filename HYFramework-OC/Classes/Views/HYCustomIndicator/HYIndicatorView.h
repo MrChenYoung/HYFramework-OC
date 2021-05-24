@@ -12,18 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HYIndicatorView : UIScrollView
 
-// 整个indicator高度(默认50)
-@property (nonatomic, assign) CGFloat indicatorHeight;
-
-// 整个indicator距离左右屏幕宽度(默认10)
-@property (nonatomic, assign) CGFloat leftMargin;
-@property (nonatomic, assign) CGFloat rightMargin;
-
 // 相邻两个按钮间隔(默认20)
 @property (nonatomic, assign) CGFloat btnMargin;
-
-// 按钮icon和文本间隔(默认20)
-@property (nonatomic, assign) CGFloat btnIconTitleMargin;
 
 // 按钮字体(默认 [UIFont systemFontOfSize:14])
 @property (nonatomic, strong) UIFont *btnFont;
@@ -38,23 +28,21 @@ NS_ASSUME_NONNULL_BEGIN
 // 切换按钮回调
 @property (nonatomic, copy) void (^valueChangeBlock)(NSInteger index);
 
-// 当前选中的按钮索引(默认选中第一个)
+// 当前选中的按钮索引(默认0)
 @property (nonatomic, assign, readonly) NSInteger currentSelectIndex;
-
-// 按钮宽度集合
-@property (nonatomic, copy, readonly) NSArray *btnWidthsArray;
 
 // 游标 标识当前选中哪一个
 @property (nonatomic, weak) UIView *flagView;
-
-// 游标距离屏幕左边的距离(默认在第一个按钮附近)
-@property (nonatomic, assign) CGFloat flagLeftMargin;
 
 #pragma mark - 初始化
 - (instancetype)initWithSuperView:(UIView *)superView
                      topConstrain:(CGFloat)topConstrain
                            titles:(NSArray *)titles
                             icons:(NSArray *_Nullable)icons;
+
+#pragma mark - 设置子views
+// 设置子视图
+- (void)setupViews;
 
 // 重新设置按钮
 - (void)resetBtns:(NSArray *)titles;

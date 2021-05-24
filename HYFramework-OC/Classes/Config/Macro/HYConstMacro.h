@@ -163,5 +163,16 @@ typedef void (^HYTheNetworkStatusBlock)   (NSUInteger status);
 // 获取appdelegate实例
 #define HYAppDelegateSingleton (AppDelegate *)[UIApplication sharedApplication].delegate
 
+#pragma mark - 用户信息
+// 账号
+#define HYUserAccountKey @"HYUserAccount"
+// 用户名
+#define HYUserNameKey @"HYUserName"
+// token
+#define HYUserTokenKey @"HYUserToken"
+// 是否已经认证
+#define HYUserApprovKey @"HYUserApprov"
+// 是否登录
+#define HYUserLoginStateKey @"HYUserLoginStateK"
 
 #endif /* HYConstMacro_h */
