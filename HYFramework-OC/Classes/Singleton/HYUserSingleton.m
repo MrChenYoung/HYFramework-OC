@@ -29,22 +29,32 @@
 
 #pragma mark - 其他
 // 保存用户信息到磁盘
-- (void)saveUserInfoOnDisk
+- (void)saveUserInfoOnDiskComplete:(void (^)(void))complete
 {
-    // 账号
-    [HYUserDefaultsTool saveObjWithKey:HYUserAccountKey value:self.account];
+    // 异步保存
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        // 账号
+        [HYUserDefaultsTool saveObjWithKey:HYUserAccountKey value:self.account];
 
-    // 用户名
-    [HYUserDefaultsTool saveObjWithKey:HYUserNameKey value:self.userName];
+        // 用户名
+        [HYUserDefaultsTool saveObjWithKey:HYUserNameKey value:self.userName];
 
-    // token
-    [HYUserDefaultsTool saveObjWithKey:HYUserTokenKey value:self.token];
+        // token
+        [HYUserDefaultsTool saveObjWithKey:HYUserTokenKey value:self.token];
 
-    // 是否已经认证
-    [HYUserDefaultsTool saveBoolWithKey:HYUserApprovKey value:self.ifApprove];
+        // 是否已经认证
+        [HYUserDefaultsTool saveBoolWithKey:HYUserApprovKey value:self.ifApprove];
 
-    // 是否登录
-    [HYUserDefaultsTool saveBoolWithKey:HYUserLoginStateKey value:self.isLogin];
+        // 是否登录
+        [HYUserDefaultsTool saveBoolWithKey:HYUserLoginStateKey value:self.isLogin];
+        
+        // 保存完成
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (complete) {
+                complete();
+            }
+        });
+    });
 }
 
 // 从磁盘读取用户信息
