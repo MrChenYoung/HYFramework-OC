@@ -162,6 +162,8 @@ typedef void (^HYTheNetworkStatusBlock)   (NSUInteger status);
 #define HYUserSingletonInstance [HYUserSingleton share]
 // 获取appdelegate实例
 #define HYAppDelegateSingleton (AppDelegate *)[UIApplication sharedApplication].delegate
+// 判断对象是不是空
+#define HYObjectEmpty(obj) (obj == nil || [obj isNULL])
 
 #pragma mark - 用户信息
 // 账号

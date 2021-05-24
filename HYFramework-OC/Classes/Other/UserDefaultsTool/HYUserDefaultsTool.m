@@ -6,6 +6,7 @@
 //
 
 #import "HYUserDefaultsTool.h"
+#import "HYFramework.h"
 
 @implementation HYUserDefaultsTool
 
@@ -17,7 +18,11 @@
 + (void)saveObjWithKey:(NSString *)key value:(id)value
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:value forKey:key];
+    if (HYObjectEmpty(value)) {
+        [userDefaults setObject:nil forKey:key];
+    }else {
+        [userDefaults setObject:value forKey:key];
+    }
     [userDefaults synchronize];
 }
 
