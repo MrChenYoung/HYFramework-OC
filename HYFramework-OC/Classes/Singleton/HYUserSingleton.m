@@ -77,7 +77,7 @@
 }
 
 // 清空用户信息（退出登录时使用）
-- (void)clearAllUserInfo
+- (void)clearAllUserInfoComplete:(void (^)(void))complete
 {
     // 账号
     self.account = nil;
@@ -94,7 +94,7 @@
     // 是否登录
     self.login = NO;
     
-    [self saveUserInfoOnDisk];
+    [self saveUserInfoOnDiskComplete:complete];
 }
 
 @end

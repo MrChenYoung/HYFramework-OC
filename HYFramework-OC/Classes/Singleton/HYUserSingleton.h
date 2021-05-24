@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)readUserInfoFromDisk;
 
 // 清空用户信息（退出登录时使用）
-- (void)clearAllUserInfo;
+- (void)clearAllUserInfoComplete:(void (^)(void))complete;
 
 @end
 
