@@ -175,6 +175,6 @@ typedef void (^HYTheNetworkStatusBlock)   (NSUInteger status);
 // 是否已经认证
 #define HYUserApprovKey @"HYUserApprov"
 // 是否登录
-#define HYUserLoginStateKey @"HYUserLoginStateK"
+#define HYUserLoginStateKey @"HYUserLoginState"
 
 #endif /* HYConstMacro_h */

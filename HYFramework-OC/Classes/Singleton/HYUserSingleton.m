@@ -63,7 +63,7 @@
     self.ifApprove = [HYUserDefaultsTool readBoolWithKey:HYUserApprovKey];
 
     // 是否登录
-    self.login = [HYUserDefaultsTool readBoolWithKey:HYUserLoginStateKey];
+    self.isLogin = [HYUserDefaultsTool readBoolWithKey:HYUserLoginStateKey];
 }
 
 // 清空用户信息（退出登录时使用）
@@ -82,7 +82,7 @@
     self.ifApprove = NO;
 
     // 是否登录
-    self.login = NO;
+    self.isLogin = NO;
     
     [self saveUserInfoOnDisk];
 }
