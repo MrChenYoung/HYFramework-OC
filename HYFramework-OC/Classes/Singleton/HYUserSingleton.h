@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *token;
 
 // 是否已经认证
-@property (nonatomic, assign) BOOL ifApprove;
+@property (nonatomic, assign) int ifApprove;
 
 // 是否登录
 @property (nonatomic, assign) BOOL isLogin;

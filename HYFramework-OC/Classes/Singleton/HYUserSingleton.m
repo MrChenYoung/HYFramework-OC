@@ -41,7 +41,7 @@
     [HYUserDefaultsTool saveObjWithKey:HYUserTokenKey value:self.token];
 
     // 是否已经认证
-    [HYUserDefaultsTool saveBoolWithKey:HYUserApprovKey value:self.ifApprove];
+    [HYUserDefaultsTool saveObjWithKey:HYUserApprovKey value:@(self.ifApprove)];
 
     // 是否登录
     [HYUserDefaultsTool saveBoolWithKey:HYUserLoginStateKey value:self.isLogin];
@@ -60,7 +60,8 @@
     self.token = [HYUserDefaultsTool readObjWithKey:HYUserTokenKey];
 
     // 是否已经认证
-    self.ifApprove = [HYUserDefaultsTool readBoolWithKey:HYUserApprovKey];
+    NSNumber *num = [HYUserDefaultsTool readObjWithKey:HYUserApprovKey];
+    self.ifApprove = [num intValue];
 
     // 是否登录
     self.isLogin = [HYUserDefaultsTool readBoolWithKey:HYUserLoginStateKey];
@@ -79,7 +80,7 @@
     self.token = nil;
 
     // 是否已经认证
-    self.ifApprove = NO;
+    self.ifApprove = 1;
 
     // 是否登录
     self.isLogin = NO;
