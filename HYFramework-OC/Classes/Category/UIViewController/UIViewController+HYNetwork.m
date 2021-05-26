@@ -393,7 +393,8 @@ static char HYBaseUrlKey;
     }
     
     WeakSelf
-    [HYAFttpTool uploadFileWithParameters:params UrlString:path header:@{} upData:fileModel.data name:fileFieldName fileName:fileModel.fileName fileType:fileModel.fileType successBlock:^(id responseObject) {
+    
+    [HYAFttpTool uploadFileWithParameters:params UrlString:path header:(self.httpHeader ? self.httpHeader : @{}) upData:fileModel.data name:fileFieldName fileName:fileModel.fileName fileType:fileModel.fileType successBlock:^(id responseObject) {
         // 隐藏蒙板
         if (showHud) {
             [Weakself hideHud];
