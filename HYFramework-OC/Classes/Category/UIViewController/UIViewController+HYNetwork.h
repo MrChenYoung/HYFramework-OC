@@ -185,6 +185,7 @@ typedef void (^ _Nullable HYRequestCompleteBlock)(id result, void (^ _Nullable s
 /**
  * 用队列组异步上传多张图片或多个文件
  * @param path 地址
+ * @param fileFieldName 后台规定的文件字段名
  * @param params 参数
  * @param filesArray 要上传的文件模型数组
  * @param peerSuccess 每一个文件上传完成回调
@@ -192,6 +193,7 @@ typedef void (^ _Nullable HYRequestCompleteBlock)(id result, void (^ _Nullable s
  * @param hiddenHudWhenComplete 所有文件上传完成是否隐藏蒙版
  */
 - (void)uploadMultiFileWithPath:(NSString *)path
+                  fileFieldName:(NSString *)fileFieldName
                          params:(NSDictionary *)params
                      filesArray:(NSArray <HYFileModel *>*)filesArray
                     peerSuccess:(void (^)(HYFileModel *fileM,NSString * _Nullable filePath))peerSuccess
