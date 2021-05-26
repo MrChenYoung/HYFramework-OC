@@ -24,16 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 // 点击一行回调
 @property (nonatomic, copy) void(^didSelectRowAtIndexPath)(UITableView *table, NSIndexPath *indexPath);
 
-// sectionHeader title
-@property (nonatomic, copy) NSString *(^titleForHeaderInSection)(UITableView *table, NSInteger section);
-
-// sectionHeader view
-@property (nonatomic, copy) UIView *(^viewForHeaderInSection)(UITableView *table, NSInteger section);
-
-//section header 高度
-@property (nonatomic, copy) CGFloat (^heightForHeaderInSection)(UITableView *table, NSInteger section);
-
-
 // section数量(默认1)
 @property (nonatomic, copy) NSInteger(^numberOfSections)(void);
 
@@ -42,6 +32,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 行高
 @property (nonatomic, copy) CGFloat(^heightForRowAtIndexPath)(NSIndexPath *indexPath);
+
+#pragma mark - section 头部&尾部
+// sectionHeader title
+@property (nonatomic, copy) NSString *(^titleForHeaderInSection)(UITableView *table, NSInteger section);
+
+//section header 高度
+@property (nonatomic, copy) CGFloat (^heightForHeaderInSection)(UITableView *table, NSInteger section);
+
+// sectionHeader view
+@property (nonatomic, copy) UIView *(^viewForHeaderInSection)(UITableView *table, NSInteger section);
+
+// sectionFooter title
+@property (nonatomic, copy) NSString *(^titleForFooterInSection)(UITableView *table, NSInteger section);
+
+//section footer 高度
+@property (nonatomic, copy) CGFloat (^heightForFooterInSection)(UITableView *table, NSInteger section);
+
+// sectionFooter view
+@property (nonatomic, copy) UIView *(^viewForFooterInSection)(UITableView *table, NSInteger section);
 
 #pragma mark - 工厂方法
 // 获取对象

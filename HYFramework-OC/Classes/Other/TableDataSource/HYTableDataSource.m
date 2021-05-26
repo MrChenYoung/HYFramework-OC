@@ -112,6 +112,36 @@
     }
 }
 
+// section foot title
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (self.titleForFooterInSection) {
+        return self.titleForFooterInSection(tableView, section);
+    }
+    
+    return @"";
+}
+
+// section footer height
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section
+{
+    if (self.heightForFooterInSection) {
+        return self.heightForFooterInSection(tableView,section);
+    }else {
+        return 0;
+    }
+}
+
+// section footer view
+- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (self.viewForFooterInSection) {
+        return self.viewForFooterInSection(tableView,section);
+    }else {
+        return nil;
+    }
+}
+
 // 点击一行
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
