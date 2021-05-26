@@ -123,7 +123,7 @@
 }
 
 // section footer height
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (self.heightForFooterInSection) {
         return self.heightForFooterInSection(tableView,section);
