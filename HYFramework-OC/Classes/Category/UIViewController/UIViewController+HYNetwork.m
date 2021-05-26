@@ -402,11 +402,11 @@ static char HYBaseUrlKey;
         
         NSDictionary *dict = (NSDictionary *)responseObject;
         NSString *msg = @"上传失败";
-        if ([dict.allKeys containsObject:@"Msg"]) {
+        if ([dict.allKeys containsObject:@"msg"]) {
             msg = dict[@"msg"];
         }
-        if([dict[@"ResultType"] intValue] == 0){
-            NSString *url = dict[@"AppendData"];
+        if([dict[@"code"] intValue] == 200){
+            NSString *url = dict[@"data"];
             if (HYStringEmpty(url)) {
                 // 提示信息
                 HYShowToast(msg);
