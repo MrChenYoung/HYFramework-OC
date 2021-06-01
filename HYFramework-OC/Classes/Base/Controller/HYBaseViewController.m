@@ -6,8 +6,7 @@
 //
 
 #import "HYBaseViewController.h"
-#import "Masonry.h"
-#import "UIViewController+HYNavigation.h"
+#import "HYFramework.h"
 
 @interface HYBaseViewController ()
 
@@ -50,12 +49,12 @@
 // 子视图设置
 - (void)setupSubviews
 {
-    // 默认白色view
-    self.view.backgroundColor = [UIColor whiteColor];
+    // 默认背景浅灰色
+    self.view.backgroundColor = HYColorBgLight1;
     
 
     // 设置返回按钮
-    self.navigationItem.backBarButtonItem = self.backButtonItem;
+//    self.navigationItem.backBarButtonItem = self.backButtonItem;
 //    self.navigationItem.backBarButtonItem = self.backButtonItem;
 //    if (self.navigationController) {
 //        if (self.navigationController.viewControllers.count > 1) {
@@ -85,6 +84,13 @@
 - (NSString *)checkBeforeCommit
 {
     return nil;
+}
+
+#pragma mark - 懒加载
+// 获取导航控制器
+- (HYNavigationController *)navController
+{
+    return self.navigationController;
 }
 
 

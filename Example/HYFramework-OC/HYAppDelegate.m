@@ -7,15 +7,16 @@
 //
 
 #import "HYAppDelegate.h"
-#import "HYViewController.h"
+#import "HYRootViewController.h"
+#import "HYFramework.h"
 
 @implementation HYAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc]initWithFrame:HYSCREEN_Bounds];
-    HYViewController *vc = [[HYViewController alloc]init];
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+    HYRootViewController *vc = [[HYRootViewController alloc]init];
+    HYNavigationController *nav = [[HYNavigationController alloc]initWithRootViewController:vc];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     

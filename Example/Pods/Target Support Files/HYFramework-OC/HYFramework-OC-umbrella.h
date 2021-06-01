@@ -11,9 +11,8 @@
 #endif
 
 #import "HYBaseViewController.h"
+#import "HYNavigationController.h"
 #import "HYBaseModel.h"
-#import "HYBaseCustomView.h"
-#import "HYBaseTableViewCell.h"
 #import "MBProgressHUD+HYAdd.h"
 #import "NSDate+HYAdd.h"
 #import "NSObject+HYAdd.h"
@@ -53,6 +52,9 @@
 #import "HYUserDefaultsTool.h"
 #import "HYVideoTool.h"
 #import "HYUserSingleton.h"
+#import "HYBaseCustomView.h"
+#import "HYBaseTableViewCell.h"
+#import "HYTableView.h"
 #import "HYIndicatorImgView.h"
 #import "HYIndicatorSimpleView.h"
 #import "HYIndicatorView.h"

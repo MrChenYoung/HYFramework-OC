@@ -16,16 +16,18 @@
     return model;
 }
 
+// model嵌套，内部model类型指定
++ (NSDictionary *)modelContainerPropertyGenericClass
+{
+    return @{@"hyList" : [HYBaseModel class]};
+}
 
-// 返回容器类中的所需要存放的数据类型 (以 Class 或 Class Name 的形式)。
-//+ (NSDictionary *)modelContainerPropertyGenericClass {
-//    return @{@"stuTrackingFlowList" : [ZhenTrakingFlowModel class]};
-//}
-
-// model ID属性取json中id键对应的值(该方法适用于yymodel)
+// 自定义属性名称
 //+ (NSDictionary *)modelCustomPropertyMapper
 //{
 //    return @{@"ID":@"id"};
 //}
+
+
 
 @end

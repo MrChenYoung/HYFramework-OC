@@ -56,10 +56,12 @@
 #import "HYBaseCustomView.h"
 #import "HYBaseTableViewCell.h"
 #import "HYBaseViewController.h"
+#import "HYNavigationController.h"
 
 
 // 自定义class
 #import "HYTextView.h"
+#import "HYTableView.h"
 
 #import "HYJsonTool.h"
 #import "HYAPPTool.h"

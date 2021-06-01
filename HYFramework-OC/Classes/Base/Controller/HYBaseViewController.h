@@ -6,14 +6,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIViewController+HYNetwork.h"
-
+#import "HYNavigationController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HYBaseViewController : UIViewController
 
-#pragma mark - 属性
+#pragma mark - 导航控制器
+// 是否隐藏导航栏
+@property (nonatomic, weak) HYNavigationController *navController;
+
 
 #pragma mark - 导航栏相关
 // 是否隐藏导航栏

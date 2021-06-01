@@ -18,13 +18,13 @@
 @implementation HYTestListCell
 
 #pragma mark - 设置子view
-- (void)setupViews
+- (void)setupSubViews
 {
-    [super setupViews];
+    [super setupSubViews];
     
     UILabel *label = UILabel.new;
     label.textAlignment = NSTextAlignmentCenter;
-    label.backgroundColor = HYColorBgLight;
+    label.backgroundColor = HYColorBgLight3;
     label.font = HYFontSystem(15);
     label.textColor = HYColorTextNormal;
     [self.contentView addSubview:label];

@@ -13,19 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HYBaseCustomView : UIView
 
-// 主背景
-@property (nonatomic, weak) UIView *mainBgView;
+// 背景视图
+@property (nonatomic, weak) UIView *bgView;
 
 #pragma mark - 工厂方法
 // 自定义view初始化
 + (instancetype)view;
-
-#pragma mark - 设置子视图
-// 添加子视图
-- (void)setupSubViews;
-
-#pragma mark - 其他
-
 
 @end
 

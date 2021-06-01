@@ -7,15 +7,13 @@
 
 #import "UIViewController+HYTableView.h"
 #import <objc/runtime.h>
-#import "Masonry.h"
-#import "HYConstMacro.h"
-#import "UIScrollView+HYRefresh.h"
+#import "HYFramework.h"
 
 static char HYTableViewPropertyKey;
-static char HYDatasourcePropertyKey;
-static char HYPageIndexPropertyKey;
-static char HYRowHPropertyKey;
-static char HYLoadMoreDataKey;
+static char HYTextLabelContentPropertyKey;
+static char HYDetailTextLabelContentPropertyKey;
+static char HYCellStylePropertyKey;
+static char HYCellAccessoryTypePropertyKey;
 
 @implementation UIViewController (HYTableView)
 
@@ -23,180 +21,120 @@ static char HYLoadMoreDataKey;
 // 设置tableView
 - (void)setupTableView
 {
-    // 默认cell分割线左右边距
-//    self.separatorInset = UIEdgeInsetsMake(0, 10, 0, 5);
-    
-    // 页码 默认从第一页开始
-    self.pageIndex = 1;
     // 添加table
     [self.view addSubview:self.tableView];
+    self.tableView.hyDelegate = self;
+    // 默认tableview和self.view一样大小
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view);
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view);
-        make.bottom.equalTo(self.view);
+        make.edges.mas_equalTo(0);
     }];
     
-    // 设置tableDataSource信息
-    [self setupTableDataSource];
+    // 设置tableDatasource
+    [self.tableView setupTableDataSource];
 }
 
-#pragma mark - 下拉刷新/上拉加载更多
-// 添加头部刷新
-- (void)addHeaderRefresh
+#pragma mark - HYTableDelegate
+// 下拉刷新调用方法
+- (void)hy_reloadData
 {
-    WeakSelf
-    [self.tableView addHeaderRefreshBlock:^{
-        if ([Weakself respondsToSelector:@selector(reloadData)]) {
-            [Weakself reloadData];
-        }
-    }];
+    
 }
 
-// 添加上拉加载更多
-- (void)addFootRefresh
+// 上拉加载更多调用方法
+- (void)hy_loadMoreData
 {
-    WeakSelf
-    [self.tableView addFootRefreshBlock:^{
-        if ([Weakself respondsToSelector:@selector(loadMore)]) {
-            [Weakself loadMore];
-        }
-    }];
+    
 }
 
-// 头部开始刷新
-- (void)startRefresh
-{
-    [self.tableView startRefresh];
-}
-
-// 停止刷新(包括头部和尾部)
-- (void)stopRefresh
-{
-    [self.tableView stopRefresh];
-}
-
-// 下拉刷新
-- (void)reloadData
-{
-    // 复位页码
-    self.pageIndex = 1;
-    self.loadMoreData = NO;
-    [self.dataSource.dataSourceArray removeAllObjects];
-}
-
-// 上拉加载更多
-- (void)loadMore
-{
-    self.pageIndex++;
-    self.loadMoreData = YES;
-}
-
-// 加载更多的情况下数据处理
-- (void)loadMoreDataHandle:(NSArray *)newData
-{
-    if (self.loadMoreData && newData && newData.count != 0) {
-        // 记录原有的数据
-        NSMutableArray *arrM = [NSMutableArray arrayWithArray:self.dataSource.dataSourceArray];
-        
-        // 添加新的数据
-        [arrM addObjectsFromArray:newData];
-        
-        [self.dataSource resetDataWithArray:[arrM copy]];
-    }
-}
-
-
-#pragma mark - 其他
 // 设置tableDataSource信息
-- (void)setupTableDataSource
+- (void)hy_setupTableDataSource
 {
-    
-}
-
-// 设置tableView高度自适应
-- (void)setupTableViewHeightAutomatic
-{
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 60;
-}
-
-// 注册 Nib cell(这里复用标识固定和cell类名一致)
-- (void)registNibCell:(NSString *)className
-{
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(NSClassFromString(className).class) bundle:nil] forCellReuseIdentifier:className];
-}
-
-// 注册纯代码cell(这里复用标识固定和cell类名一致)
-- (void)registCell:(NSString *)className
-{
-    [self.tableView registerClass:[NSClassFromString(className) class] forCellReuseIdentifier:className];
+    WeakSelf
+    // 高度
+    self.tableView.rowHeight = 48;
+    // cell
+    self.tableView.hyDataSource.cellForRowAtIndexPath = ^UITableViewCell * _Nonnull(UITableView * _Nonnull table, NSIndexPath * _Nonnull indexPath) {
+        HYBaseTableViewCell *cell = [table dequeueReusableCellWithIdentifier:@"HYBaseTableViewCell"];
+        
+        UITableViewCellStyle cellStyle = UITableViewCellStyleDefault;
+        if (Weakself.cellStyleBlock) {
+            cellStyle = Weakself.cellStyleBlock(indexPath);
+        }
+        if (cell == nil) {
+            cell = [[HYBaseTableViewCell alloc]initWithStyle:cellStyle reuseIdentifier:@"HYBaseTableViewCell"];
+        }
+        
+        // cell内文本显示
+        if (Weakself.textLabelContentBlock) {
+            cell.textLabel.text = Weakself.textLabelContentBlock(indexPath);
+        }
+        
+        if (Weakself.detailTextLabelContentBlock) {
+            cell.detailTextLabel.text = Weakself.detailTextLabelContentBlock(indexPath);
+        }
+        
+        // cell accessoryType
+        if (Weakself.cellAccessoryTypeBlock) {
+            cell.accessoryType = Weakself.cellAccessoryTypeBlock(indexPath);
+        }
+        
+        return cell;
+    };
 }
 
 #pragma mark - 关联属性
 //getter
-- (UITableView *)tableView
+- (HYTableView *)tableView
 {
-    UITableView *table = objc_getAssociatedObject(self, &HYTableViewPropertyKey);
+    HYTableView *table = objc_getAssociatedObject(self, &HYTableViewPropertyKey);
     if (table == nil) {
-        table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        table.tableFooterView = UIView.new;
-        table.separatorStyle = UITableViewCellSeparatorStyleNone;
-        table.backgroundColor = HYColorBgLight;
-        // 分割线颜色
-        table.separatorColor = HYColorRGB(231, 231, 231);
+        table = [HYTableView tableView];
         self.tableView = table;
     }
-    return  table;
+    return table;
 }
-- (void)setTableView:(UITableView *)tableView
+- (void)setTableView:(HYTableView *)tableView
 {
     objc_setAssociatedObject(self, &HYTableViewPropertyKey, tableView, OBJC_ASSOCIATION_RETAIN);
 }
 
-- (HYTableDataSource *)dataSource
+
+- (NSString * _Nonnull (^)(NSIndexPath * _Nonnull))textLabelContentBlock
 {
-    HYTableDataSource *dataSource = objc_getAssociatedObject(self, &HYDatasourcePropertyKey);
-    if (dataSource == nil) {
-        dataSource = [HYTableDataSource dataSourceWithTable:self.tableView];
-        self.dataSource = dataSource;
-    }
-    return dataSource;
+    return objc_getAssociatedObject(self, &HYTextLabelContentPropertyKey);;
 }
-- (void)setDataSource:(HYTableDataSource *)dataSource
+-(void)setTextLabelContentBlock:(NSString * _Nonnull (^)(NSIndexPath * _Nonnull))textLabelContentBlock
 {
-    objc_setAssociatedObject(self, &HYDatasourcePropertyKey, dataSource, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self, &HYTextLabelContentPropertyKey, textLabelContentBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (NSInteger)pageIndex
+- (NSString * _Nonnull (^)(NSIndexPath * _Nonnull))detailTextLabelContentBlock
 {
-    NSNumber *pageIn = objc_getAssociatedObject(self, &HYPageIndexPropertyKey);
-    return [pageIn integerValue];
+    return objc_getAssociatedObject(self, &HYDetailTextLabelContentPropertyKey);
 }
-- (void)setPageIndex:(NSInteger)pageIndex
+- (void)setDetailTextLabelContentBlock:(NSString * _Nonnull (^)(NSIndexPath * _Nonnull))detailTextLabelContentBlock
 {
-    objc_setAssociatedObject(self, &HYPageIndexPropertyKey, @(pageIndex), OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (CGFloat)rowHeight
-{
-    NSNumber *rowH = objc_getAssociatedObject(self, &HYRowHPropertyKey);
-    return [rowH floatValue];
-}
-- (void)setRowHeight:(CGFloat)rowHeight
-{
-    objc_setAssociatedObject(self, &HYRowHPropertyKey, @(rowHeight), OBJC_ASSOCIATION_ASSIGN);
-    self.tableView.rowHeight = rowHeight;
+    objc_setAssociatedObject(self, &HYDetailTextLabelContentPropertyKey, detailTextLabelContentBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (BOOL)loadMoreData
+- (UITableViewCellStyle (^)(NSIndexPath * _Nonnull))cellStyleBlock
 {
-    NSNumber *rowH = objc_getAssociatedObject(self, &HYLoadMoreDataKey);
-    return [rowH boolValue];
+    return objc_getAssociatedObject(self, &HYCellStylePropertyKey);
 }
-- (void)setLoadMoreData:(BOOL)loadMoreData
+- (void)setCellStyleBlock:(UITableViewCellStyle (^)(NSIndexPath * _Nonnull))cellStyleBlock
 {
-    objc_setAssociatedObject(self, &HYLoadMoreDataKey, @(loadMoreData), OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, &HYCellStylePropertyKey, cellStyleBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
+
+- (UITableViewCellAccessoryType (^)(NSIndexPath * _Nonnull))cellAccessoryTypeBlock
+{
+    return objc_getAssociatedObject(self, &HYCellAccessoryTypePropertyKey);
+}
+- (void)setCellAccessoryTypeBlock:(UITableViewCellAccessoryType (^)(NSIndexPath * _Nonnull))cellAccessoryTypeBlock
+{
+    objc_setAssociatedObject(self, &HYCellAccessoryTypePropertyKey, cellAccessoryTypeBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+
 
 @end

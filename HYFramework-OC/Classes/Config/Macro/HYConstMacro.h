@@ -65,8 +65,11 @@
 #define HYColorHex(string) [UIColor colorWithHexString:string]
 
 // 常用颜色
-// 主题色
-#define HYColorTheme HYColorRGB(1, 137, 255)
+// 主题色，多种可选
+#define HYColorTheme1 HYColorRGB(42, 81, 243)
+#define HYColorTheme2 HYColorRGB(1, 137, 255)
+#define HYColorTheme3 HYColorRGB(42,101,212)
+
 // 白色
 #define HYColorWhite [UIColor whiteColor]
 // 黑色
@@ -87,11 +90,10 @@
 // 字体颜色
 #define HYColorTextNormal HYColorRGB(51,51,51)
 
-// 背景色(浅灰色)
-#define HYColorBgLight HYColorRGB(243,245,249)
-#define HYColorBgLight1 HYColorRGB(204,204,204)
-#define HYColorBgLight2 HYColorRGB(245,245,250)
-
+// 背景色(浅灰色,由浅入深)
+#define HYColorBgLight1 HYColorRGB(245,245,250)
+#define HYColorBgLight2 HYColorRGB(231,231,231)
+#define HYColorBgLight3 HYColorRGB(204,204,204)
 
 
 #pragma mark - 字体相关

@@ -16,8 +16,17 @@ NS_ASSUME_NONNULL_BEGIN
 // 数据模型
 @property (nonatomic, weak) HYBaseModel *model;
 
-// 设置子视图
-- (void)setupViews;
+#pragma mark - textLabel
+// 字体大小
+@property (nonatomic, strong) UIFont *textFont;
+// 字体颜色
+@property (nonatomic, strong) UIColor *textColor;
+
+#pragma mark - detailTextLabel
+// 字体大小
+@property (nonatomic, strong) UIFont *detailTextFont;
+// 字体颜色
+@property (nonatomic, strong) UIColor *detailTextColor;
 
 @end
 

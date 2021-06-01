@@ -67,6 +67,9 @@ static char HYExtraObjectKey;
 }
 
 #pragma mark - 添加方法
+// 添加子视图
+- (void)setupSubViews{}
+
 /**
  * 设置view圆角
  *  @param cornerRadius radius

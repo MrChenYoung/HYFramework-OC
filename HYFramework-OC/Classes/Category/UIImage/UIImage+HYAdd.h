@@ -42,6 +42,17 @@ NS_ASSUME_NONNULL_BEGIN
 //+ (void)imagePreviewWithPhotos:(NSArray <ZhenImageOrVideoModel *>*)imagesData
 //                  currentModel:(ZhenImageOrVideoModel *)currentModel;
 
+
+/**
+ * 根据指定颜色生成图片
+ * @param color 颜色
+ * @param size  生成图片的大小
+ * @return 生成的图片
+ */
++ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

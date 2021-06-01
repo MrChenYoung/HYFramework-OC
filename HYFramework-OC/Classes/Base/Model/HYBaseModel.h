@@ -30,11 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 // 是否选中
 @property (nonatomic, assign) BOOL sel;
 
+// 嵌套model
+@property (nonatomic, copy) NSArray <HYBaseModel *>*hyList;
+
 // 快速创建model
 + (instancetype)model;
-
-// 时间戳转换成日期
-- (NSString *)dateStringTranslate:(NSString *)str;
 
 @end
 
