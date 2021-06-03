@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HYBaseCustomView : UIView
+@interface HYBaseView : UIView
 
 // 背景视图
 @property (nonatomic, weak) UIView *bgView;

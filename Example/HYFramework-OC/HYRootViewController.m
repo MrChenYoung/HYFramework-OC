@@ -36,8 +36,16 @@
     self.title = @"HYFramework";
     
     // 添加tableView
-    [self setupTableView];
+    [self setupTableView:nil];
     self.view.backgroundColor = self.tableView.backgroundColor = HYColorWhite;
+    
+    // 设置成简单的tableView
+    WeakSelf
+    [self setupSingleTableRowH:60 cellStyle:UITableViewCellStyleDefault titleForSectionHeader:nil sectionHeader:nil cellForRow:^(HYBaseTableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath) {
+        HYBaseModel *model = Weakself.dataArray[indexPath.row];
+        cell.textLabel.text = model.content;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }];
     
     // 设置数据
     [self.tableView.hyDataSource resetDataWithArray:self.dataArray];
@@ -46,20 +54,6 @@
 - (void)hy_setupTableDataSource
 {
     WeakSelf
-    
-    // 使用默认的cell
-    [super hy_setupTableDataSource];
-    // cell高度
-    self.tableView.rowHeight = 60;
-    // cell文本显示
-    self.textLabelContentBlock = ^NSString * _Nonnull(NSIndexPath * _Nonnull indexPath) {
-        HYBaseModel *model = Weakself.dataArray[indexPath.row];
-        return model.content;
-    };
-    // cell accessoryType
-    self.cellAccessoryTypeBlock = ^UITableViewCellAccessoryType(NSIndexPath * _Nonnull indexPath) {
-        return UITableViewCellAccessoryDisclosureIndicator;
-    };
     self.tableView.hyDataSource.didSelectRowAtIndexPath = ^(UITableView * _Nonnull table, NSIndexPath * _Nonnull indexPath) {
         HYBaseModel *model = Weakself.dataArray[indexPath.row];
         NSString *ctrName = model.content2;

@@ -6,21 +6,21 @@
 //  Copyright © 2021 Zhen. All rights reserved.
 //
 
-#import "HYBaseCustomView.h"
+#import "HYBaseView.h"
 #import "HYConstMacro.h"
 #import "UIView+HYAdd.h"
 
-@interface HYBaseCustomView ()
+@interface HYBaseView ()
 
 @end
 
-@implementation HYBaseCustomView
+@implementation HYBaseView
 
 #pragma mark - 工厂方法
 // 自定义view初始化
 + (instancetype)view
 {
-    HYBaseCustomView *v = [[self alloc]init];
+    HYBaseView *v = [[self alloc]init];
     
     // 默认frame
     v.frame = HYSCREEN_Bounds;
@@ -29,14 +29,6 @@
     [v setupSubViews];
     
     return v;
-}
-
-#pragma mark - 设置子视图
-// 设置子视图
-- (void)setupSubViews
-{
-    [super setupSubViews];
-    
 }
 
 @end

@@ -7,10 +7,11 @@
 
 #import <UIKit/UIKit.h>
 #import "HYTableDataSource.h"
+#import "HYNoneDataView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-// 刷新数据代理
+// 刷新数据一级设置数据源回调代理
 @protocol HYTableDelegate <NSObject>
 
 // 下拉刷新调用方法
@@ -35,28 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
 // 是否是加载更多
 @property(nonatomic, assign, readonly) BOOL isLoadMore;
 
-// 是否显示默认的头部
-@property(nonatomic, assign) BOOL showDefaultSectionHeader;
-
 // 代理, 用于设置下拉刷新和上拉加载更多调用方法，以及设置tableDatasource
 @property (nonatomic, weak) id <HYTableDelegate>hyDelegate;
 
-#pragma mark - section header属性
-// 字体大小
-@property (nonatomic, strong) UIFont *sectionHeaderFont;
-
-// 字体颜色
-@property (nonatomic, strong) UIColor *sectionHeaderTextColor;
-
-// 背景颜色
-@property (nonatomic, strong) UIColor *sectionHeaderBgColor;
-
-// 左边距离屏幕距离
-@property (nonatomic, assign) CGFloat sectionHeaderLeftMargin;
-
-// 右边距离屏幕距离
-@property (nonatomic, assign) CGFloat sectionHeaderRightMargin;
-
+// 没有数据的时候显示的背景view
+@property (nonatomic, strong, readonly) HYNoneDataView *noneDataBgView;
 
 #pragma mark - 工厂方法，获取对象
 /**

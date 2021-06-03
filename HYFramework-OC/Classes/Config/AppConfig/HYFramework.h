@@ -46,6 +46,7 @@
 #import "UIViewController+HYFilePreview.h"
 #import "UIViewController+HYNetwork.h"
 #import "UIViewController+HYTableView.h"
+#import "UIViewController+HYCollectionView.h"
 #import "UIViewController+HYNavigation.h"
 #import "UIViewController+HYScrollView.h"
 #import "UIViewController+HYImageVideoBrowser.h"
@@ -53,7 +54,7 @@
 
 // base
 #import "HYBaseModel.h"
-#import "HYBaseCustomView.h"
+#import "HYBaseView.h"
 #import "HYBaseTableViewCell.h"
 #import "HYBaseViewController.h"
 #import "HYNavigationController.h"
@@ -62,6 +63,9 @@
 // 自定义class
 #import "HYTextView.h"
 #import "HYTableView.h"
+#import "HYSingleTableView.h"
+#import "HYCollectionView.h"
+#import "HYSingleCollectionView.h"
 
 #import "HYJsonTool.h"
 #import "HYAPPTool.h"

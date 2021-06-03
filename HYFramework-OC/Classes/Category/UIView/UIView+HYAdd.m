@@ -66,10 +66,11 @@ static char HYExtraObjectKey;
     objc_setAssociatedObject(self, &HYViewControllerKey, viewController, OBJC_ASSOCIATION_RETAIN);
 }
 
-#pragma mark - 添加方法
+#pragma mark - 添加子视图
 // 添加子视图
 - (void)setupSubViews{}
 
+#pragma mark - 圆角
 /**
  * 设置view圆角
  *  @param cornerRadius radius
@@ -86,6 +87,59 @@ static char HYExtraObjectKey;
     self.layer.mask = layer;
     layer.masksToBounds = NO;
     return layer;
+}
+
+#pragma mark - 边框
+// 设置指定边有边框
+- (void)borderWithColor:(UIColor *)borderColor width:(CGFloat)borderWidth borderPosition:(HYBorderPosition)borderPosition
+{
+    [self.superview layoutIfNeeded];
+    
+   if (borderPosition == HYBorderPositionAll) {
+       self.layer.borderWidth = borderWidth;
+       self.layer.borderColor = borderColor.CGColor;
+   }
+   
+   // 左侧
+   if (borderPosition & HYBorderPositionLeft) {
+       // 左侧线路径
+       [self.layer addSublayer:[self addLineOriginPoint:CGPointMake(0.f, 0.f) toPoint:CGPointMake(0.0f, self.frame.size.height) color:borderColor borderWidth:borderWidth]];
+   }
+   
+   // 右侧
+   if (borderPosition & HYBorderPositionRight) {
+       // 右侧线路径
+       [self.layer addSublayer:[self addLineOriginPoint:CGPointMake(self.frame.size.width, 0.0f) toPoint:CGPointMake(self.frame.size.width, self.frame.size.height) color:borderColor borderWidth:borderWidth]];
+   }
+   
+   // top
+   if (borderPosition & HYBorderPositionTop) {
+       // top线路径
+       [self.layer addSublayer:[self addLineOriginPoint:CGPointMake(0.0f, 0.0f) toPoint:CGPointMake(self.frame.size.width, 0.0f) color:borderColor borderWidth:borderWidth]];
+   }
+   
+   // bottom
+   if (borderPosition & HYBorderPositionBottom) {
+       // bottom线路径
+       [self.layer addSublayer:[self addLineOriginPoint:CGPointMake(0.0f, self.frame.size.height) toPoint:CGPointMake(self.frame.size.width, self.frame.size.height) color:borderColor borderWidth:borderWidth]];
+   }
+}
+
+- (CAShapeLayer *)addLineOriginPoint:(CGPoint)p0 toPoint:(CGPoint)p1 color:(UIColor *)color borderWidth:(CGFloat)borderWidth
+{
+    // 线的路径
+    UIBezierPath * bezierPath = [UIBezierPath bezierPath];
+    [bezierPath moveToPoint:p0];
+    [bezierPath addLineToPoint:p1];
+    
+    CAShapeLayer * shapeLayer = [CAShapeLayer layer];
+    shapeLayer.strokeColor = color.CGColor;
+    shapeLayer.fillColor  = [UIColor clearColor].CGColor;
+    // 添加路径
+    shapeLayer.path = bezierPath.CGPath;
+    // 线宽度
+    shapeLayer.lineWidth = borderWidth;
+    return shapeLayer;
 }
 
 @end

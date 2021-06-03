@@ -16,6 +16,9 @@
 // 是否是加载更多
 @property(nonatomic, assign, readwrite) BOOL isLoadMore;
 
+// 没有数据的时候显示的背景view
+@property (nonatomic, strong, readwrite) HYNoneDataView *noneDataBgView;
+
 @end
 
 @implementation HYTableView
@@ -29,7 +32,7 @@
  */
 + (HYTableView *)tableViewWithStyle:(UITableViewStyle)style
 {
-    HYTableView *table = [[HYTableView alloc] initWithFrame:CGRectZero style:style];
+    HYTableView *table = [[self alloc] initWithFrame:CGRectZero style:style];
     table.tableFooterView = UIView.new;
     table.backgroundColor = HYColorBgLight1;
 
@@ -52,6 +55,19 @@
 + (HYTableView *)tableView
 {
     return [self tableViewWithStyle:UITableViewStyleGrouped];
+}
+
+// 所有view加载完成，也可以当做reloadData完成后调用的方法
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    // 没有数据的时候显示背景
+    if ([self totalRowNumber] == 0) {
+        self.backgroundView = self.noneDataBgView;
+    }else {
+        self.backgroundView = nil;
+    }
 }
 
 #pragma mark - 注册cell
@@ -102,22 +118,6 @@
 {
     // 页码 默认1
     self.pageIndex = 1;
-
-    // section header属性
-    // 字体大小
-    self.sectionHeaderFont = HYFontSystem(16);
-
-    // 字体颜色
-    self.sectionHeaderTextColor = HYColorTextNormal;
-
-    // 背景颜色
-    self.sectionHeaderBgColor = HYColorBgLight2;
-    
-    // 左边距离屏幕距离
-    self.sectionHeaderLeftMargin = 10;
-
-    // 右边距离屏幕距离
-    self.sectionHeaderRightMargin = 10;
 }
 
 // 设置tableView高度自适应
@@ -125,6 +125,16 @@
 {
     self.rowHeight = UITableViewAutomaticDimension;
     self.estimatedRowHeight = 60;
+}
+
+// 获取tableView总共有多少行
+- (NSInteger)totalRowNumber
+{
+    NSInteger rowCount = 0;
+    for (int i = 0; i < self.numberOfSections; i++) {
+        rowCount += [self numberOfRowsInSection:i];
+    }
+    return rowCount;
 }
 
 #pragma mark - 下拉刷新/上拉加载更多
@@ -202,43 +212,22 @@
     }
 }
 
-#pragma mark - setter
-// 是否显示默认的section header
-- (void)setShowDefaultSectionHeader:(BOOL)showDefaultSectionHeader
+#pragma mark - 懒加载
+// 没有数据的时候显示的背景view
+- (HYNoneDataView *)noneDataBgView
 {
-    _showDefaultSectionHeader = showDefaultSectionHeader;
-    
-    if (showDefaultSectionHeader) {
+    if (!_noneDataBgView) {
+        _noneDataBgView = [HYNoneDataView view];
+        // 刷新
         WeakSelf
-        // header 高度
-        self.hyDataSource.heightForHeaderInSection = ^CGFloat(UITableView * _Nonnull table, NSInteger section) {
-            return 50;
-        };
-        // header view
-        self.hyDataSource.viewForHeaderInSection = ^UIView * _Nonnull(UITableView * _Nonnull table, NSInteger section) {
-            // 背景
-            UIView *bgView = UIView.new;
-            bgView.backgroundColor = Weakself.sectionHeaderBgColor;
-            bgView.backgroundColor = HYColorBgLight1;
-            
-            // label
-            UILabel *textLabel = UILabel.new;
-            textLabel.font = Weakself.sectionHeaderFont;
-            textLabel.textColor = Weakself.sectionHeaderTextColor;
-            if (Weakself.hyDataSource.titleForHeaderInSection) {
-                textLabel.text = Weakself.hyDataSource.titleForHeaderInSection(table,section);
+        _noneDataBgView.refreshBtnClickBlock = ^{
+            // 调用代理的下拉刷新方法
+            if (Weakself.hyDelegate && [Weakself.hyDelegate respondsToSelector:@selector(hy_reloadData)]) {
+                [Weakself.hyDelegate hy_reloadData];
             }
-            [bgView addSubview:textLabel];
-            [textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(Weakself.sectionHeaderLeftMargin);
-                make.right.mas_equalTo(-Weakself.sectionHeaderRightMargin);
-                make.bottom.mas_equalTo(-5);
-                make.height.mas_equalTo(30);
-            }];
-            
-            return bgView;
         };
     }
+    return _noneDataBgView;
 }
 
 @end

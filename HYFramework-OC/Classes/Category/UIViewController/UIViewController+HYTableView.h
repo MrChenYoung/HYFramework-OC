@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 #import "HYTableView.h"
+#import "HYBaseTableViewCell.h"
+#import "Masonry.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,29 +17,27 @@ NS_ASSUME_NONNULL_BEGIN
 // table
 @property (nonatomic, strong) HYTableView *tableView;
 
-#pragma mark - 如果使用默认的cell，cell内容设置
-// textlabel
-@property (nonatomic, copy) NSString *(^textLabelContentBlock)(NSIndexPath *indexPath);
-// detailTextLabel
-@property (nonatomic, copy) NSString *(^detailTextLabelContentBlock)(NSIndexPath *indexPath);
-// cell style
-@property (nonatomic, copy) UITableViewCellStyle (^cellStyleBlock)(NSIndexPath *indexPath);
-// cell accessType
-@property (nonatomic, copy) UITableViewCellAccessoryType (^cellAccessoryTypeBlock)(NSIndexPath *indexPath);
+#pragma mark - 添加tableView
+// 创建并添加tableView到self.view
+- (void)setupTableView:(nullable void (^)(MASConstraintMaker *make))mas_makeConstraints;
 
-#pragma mark - 设置子视图
-// 设置tableView
-- (void)setupTableView;
+// 创建并添加tableView到指定的view上
+- (void)setupTableViewOnView:(UIView *)onView mas_makeConstraints:(nullable void (^)(MASConstraintMaker *make))mas_makeConstraints;
 
-#pragma mark - HYTableRefreshDataDelegate
-// 下拉刷新调用方法
-- (void)hy_reloadData;
-
-// 上拉加载更多调用方法
-- (void)hy_loadMoreData;
-
-// 设置tableDataSource信息
-- (void)hy_setupTableDataSource;
+#pragma mark - 其他
+/**
+ * 设置简单的tableView
+ * @param rowHeight 行高
+ * @param cellStyle cell类型
+ * @param titleForSectionHeader section头部显示内容
+ * @param sectionHeader sectionHeader修改回调
+ * @param cellForRow cell修改回调
+ */
+- (void)setupSingleTableRowH:(CGFloat)rowHeight
+                   cellStyle:(UITableViewCellStyle)cellStyle
+       titleForSectionHeader:(nullable NSString *(^)(NSInteger section))titleForSectionHeader
+               sectionHeader:(nullable void (^)(UIView *sectionHeaderBgView,UILabel *sectionHeaderTextLabel, NSInteger section))sectionHeader
+                  cellForRow:(void (^)(HYBaseTableViewCell *cell,NSIndexPath *indexPath))cellForRow;
 
 @end
 

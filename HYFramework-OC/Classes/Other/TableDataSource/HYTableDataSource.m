@@ -43,12 +43,15 @@
     [self.tableView reloadData];
 }
 
+// 获取
+
 #pragma mark - UITableViewDataSource
 // section数量
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (self.numberOfSections) {
-        return self.numberOfSections();
+        NSInteger sectionCount = self.numberOfSections();
+        return sectionCount;
     }else {
         return 1;
     }
@@ -82,6 +85,17 @@
     }
 }
 
+#pragma mark - sectionHeader
+//section header 高度
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (self.heightForHeaderInSection) {
+        return self.heightForHeaderInSection(tableView,section);
+    }else {
+        return 0;
+    }
+}
+
 // sectionHeader title
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -102,26 +116,7 @@
     }
 }
 
-//section header 高度
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (self.heightForHeaderInSection) {
-        return self.heightForHeaderInSection(tableView,section);
-    }else {
-        return 0;
-    }
-}
-
-// section foot title
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-{
-    if (self.titleForFooterInSection) {
-        return self.titleForFooterInSection(tableView, section);
-    }
-    
-    return @"";
-}
-
+#pragma mark - sectionFooter
 // section footer height
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -130,6 +125,16 @@
     }else {
         return 0;
     }
+}
+
+// sectionFooter title
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (self.titleForFooterInSection) {
+        return self.titleForFooterInSection(tableView, section);
+    }
+    
+    return @"";
 }
 
 // section footer view

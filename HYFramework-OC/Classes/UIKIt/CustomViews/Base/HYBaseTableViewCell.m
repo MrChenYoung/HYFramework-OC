@@ -40,7 +40,7 @@
 {
     // textLabel && detailTextLabel
     self.textLabel.font = HYFontSystem(15);
-    self.detailTextLabel.font = HYFontSystem(14);
+    self.detailTextLabel.font = HYFontSystem(12);
     self.textLabel.textColor = HYColorTextNormal;
     self.detailTextLabel.textColor = HYColorBgLight3;
 }
