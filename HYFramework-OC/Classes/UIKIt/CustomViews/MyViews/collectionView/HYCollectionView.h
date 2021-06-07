@@ -31,6 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 // dataSource对象
 @property (nonatomic, strong, readonly) HYCollectionDataSource *hyDataSource;
 
+// 设置collectionView滚动方向
+@property (nonatomic, assign) UICollectionViewScrollDirection scrollDirection;
+
 // 页码
 @property(nonatomic, assign) NSInteger pageIndex;
 
@@ -46,23 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 // 没有数据的时候显示的背景view
 @property (nonatomic, strong, readonly) HYNoneDataView *noneDataBgView;
 
-#pragma mark - section header属性
-// 字体大小
-@property (nonatomic, strong) UIFont *sectionHeaderFont;
-
-// 字体颜色
-@property (nonatomic, strong) UIColor *sectionHeaderTextColor;
-
-// 背景颜色
-@property (nonatomic, strong) UIColor *sectionHeaderBgColor;
-
-// 左边距离屏幕距离
-@property (nonatomic, assign) CGFloat sectionHeaderLeftMargin;
-
-// 右边距离屏幕距离
-@property (nonatomic, assign) CGFloat sectionHeaderRightMargin;
-
-
 #pragma mark - 工厂方法，获取对象
 /**
  * 获取指定类型的HYCollectionView对象
@@ -70,24 +56,31 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (HYCollectionView *)collectionViewWithLayout:(UICollectionViewLayout *)layout;
 
-// 获取HYCollectionView对象，UICollectionViewFlowLayout类型布局
-+ (HYCollectionView *)collectionView;
-
-#pragma mark - 注册cell
+#pragma mark - 注册cell/header/footer
 // 注册 Nib cell(这里复用标识固定和cell类名一致)
 - (void)registNibCell:(NSString *)className;
 
 // 注册纯代码cell(这里复用标识固定和cell类名一致)
 - (void)registCell:(NSString *)className;
 
+/**
+ * 注册头部/尾部
+ * @param className 类名
+ * @param kind 类型(头部/尾部) UICollectionElementKindSectionHeader UICollectionElementKindSectionFooter
+ */
+- (void)registHeader:(NSString *)className kind:(NSString *)kind;
+
+/**
+ * 注册nib头部/尾部
+ * @param className 类名
+ * @param kind 类型(头部/尾部) UICollectionElementKindSectionHeader UICollectionElementKindSectionFooter
+ */
+- (void)registNibHeader:(NSString *)className kind:(NSString *)kind;
+
 
 #pragma mark - 设置collectionView Datasource
 // 设置collectionDataSource信息
 - (void)setupCollectionDataSource;
-
-#pragma mark - 其他
-// 设置tableView高度自适应
-- (void)setupRowHeightAutomatic;
 
 #pragma mark - 下拉刷新/上拉加载更多
 // 添加头部下拉刷新

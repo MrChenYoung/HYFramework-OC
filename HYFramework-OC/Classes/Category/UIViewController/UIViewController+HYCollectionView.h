@@ -17,16 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 // collectionView
 @property (nonatomic, strong) HYCollectionView *collectionView;
 
-#pragma mark - 如果使用默认的cell，cell内容设置
-// textlabel
-@property (nonatomic, copy) NSString *(^textLabelContentBlock)(NSIndexPath *indexPath);
-// detailTextLabel
-@property (nonatomic, copy) NSString *(^detailTextLabelContentBlock)(NSIndexPath *indexPath);
-// cell style
-@property (nonatomic, copy) UITableViewCellStyle (^cellStyleBlock)(NSIndexPath *indexPath);
-// cell accessType
-@property (nonatomic, copy) UITableViewCellAccessoryType (^cellAccessoryTypeBlock)(NSIndexPath *indexPath);
-
 #pragma mark - 添加collectionView
 // 创建并添加collectionView到当前控制器的view上
 - (void)setupCollectionView:(nullable void (^)(MASConstraintMaker *make))mas_makeConstraints;
@@ -35,6 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setupCollectionViewOnView:(UIView * )onView mas_makeConstraints:(nullable void (^)(MASConstraintMaker *make))mas_makeConstraints;
 
 #pragma mark - 其他
+/**
+ * 简单的collectionView，九宫格布局等使用(cell上下间隔和左右间隔均为1)
+ * @param numberOfItemForRow 每一行有多少个cell
+ * @param itemAtIndexPath 每一个cell单独设置回调
+ */
+- (void)setupSingleCollectionCountForRow:(NSInteger)numberOfItemForRow
+                         itemAtIndexPath:(void (^)(UICollectionViewCell *cell, NSIndexPath *indexPath))itemAtIndexPath;
+
 /**
  * 简单的collectionView，九宫格布局等使用
  * @param numberOfItemForRow 每一行有多少个cell
@@ -46,6 +44,24 @@ NS_ASSUME_NONNULL_BEGIN
                              lineSpacing:(CGFloat)lineSpacing
                         interitemSpacing:(CGFloat)interitemSpacing
                          itemAtIndexPath:(void (^)(UICollectionViewCell *cell, NSIndexPath *indexPath))itemAtIndexPath;
+
+/**
+ * 简单的collectionView，九宫格布局等使用
+ * @param numberOfItemForRow 每一行有多少个cell
+ * @param lineSpacing cell上下间距
+ * @param interitemSpacing cell左右间距
+ * @param itemAtIndexPath 每一个cell单独设置回调
+ * @param heightForHeader 头部高度
+ * @param titleForSectionHeader 头部标题
+ * @param sectionHeaderBlock 头部设置
+ */
+- (void)setupSingleCollectionCountForRow:(NSInteger)numberOfItemForRow
+                             lineSpacing:(CGFloat)lineSpacing
+                        interitemSpacing:(CGFloat)interitemSpacing
+                         itemAtIndexPath:(void (^)(UICollectionViewCell *cell, NSIndexPath *indexPath))itemAtIndexPath
+                         heightForHeader:(CGFloat (^)(NSInteger section))heightForHeader
+                   titleForSectionHeader:(NSString *(^)(NSInteger section))titleForSectionHeader
+                      sectionHeaderBlock:(void (^)(UIView *sectionHeaderBgView,UILabel *sectionHeaderTextLabel, NSInteger section))sectionHeaderBlock;
 
 @end
 

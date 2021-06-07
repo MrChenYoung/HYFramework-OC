@@ -35,18 +35,10 @@
     collect.backgroundColor = HYColorWhite;
     // 设置collectionDataSource信息
     [collect setupCollectionDataSource];
+    // 页码 默认1
+    collect.pageIndex = 1;
     
     return collect;
-}
-
-// 获取HYCollectionView对象，UICollectionViewFlowLayout类型布局
-+ (HYCollectionView *)collectionView
-{
-    //创建一个layout布局类
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-    //设置布局方向为垂直流布局
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    return [self collectionViewWithLayout:layout];
 }
 
 // 所有view加载完成，也可以当做reloadData完成后调用的方法
@@ -73,6 +65,26 @@
 - (void)registCell:(NSString *)className
 {
     [self registerClass:[NSClassFromString(className) class] forCellWithReuseIdentifier:className];
+}
+
+/**
+ * 注册头部/尾部
+ * @param className 类名
+ * @param kind 类型(头部/尾部) UICollectionElementKindSectionHeader UICollectionElementKindSectionFooter
+ */
+- (void)registHeader:(NSString *)className kind:(NSString *)kind
+{
+    [self registerClass:NSClassFromString(className) forSupplementaryViewOfKind:kind withReuseIdentifier:className];
+}
+
+/**
+ * 注册nib头部/尾部
+ * @param className 类名
+ * @param kind 类型(头部/尾部) UICollectionElementKindSectionHeader UICollectionElementKindSectionFooter
+ */
+- (void)registNibHeader:(NSString *)className kind:(NSString *)kind
+{
+    [self registerNib:[UINib nibWithNibName:NSStringFromClass(NSClassFromString(className).class) bundle:nil] forSupplementaryViewOfKind:kind withReuseIdentifier:className];
 }
 
 #pragma mark - 设置collectionView Datasource
@@ -144,7 +156,6 @@
 //    self.rowHeight = UITableViewAutomaticDimension;
 //    self.estimatedRowHeight = 60;
 //}
-//
 
 #pragma mark - 下拉刷新/上拉加载更多
 // 添加头部下拉刷新
@@ -259,6 +270,13 @@
 //        };
 //    }
 //}
+
+// 设置collectionView滚动方向
+- (void)setScrollDirection:(UICollectionViewScrollDirection)scrollDirection
+{
+    _scrollDirection = scrollDirection;
+    [(UICollectionViewFlowLayout *)self.collectionViewLayout setScrollDirection:scrollDirection];
+}
 
 #pragma mark - 懒加载
 // 没有数据的时候显示的背景view

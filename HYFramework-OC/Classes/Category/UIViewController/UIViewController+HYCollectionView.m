@@ -42,6 +42,17 @@ static char HYCollectionViewPropertyKey;
 
 #pragma mark - 其他
 /**
+ * 简单的collectionView，九宫格布局等使用(cell上下间隔和左右间隔均为1)
+ * @param numberOfItemForRow 每一行有多少个cell
+ * @param itemAtIndexPath 每一个cell单独设置回调
+ */
+- (void)setupSingleCollectionCountForRow:(NSInteger)numberOfItemForRow
+                         itemAtIndexPath:(void (^)(UICollectionViewCell *cell, NSIndexPath *indexPath))itemAtIndexPath
+{
+    [(HYSingleCollectionView *)self.collectionView setupSingleCollectionCountForRow:numberOfItemForRow itemAtIndexPath:itemAtIndexPath];
+}
+
+/**
  * 简单的collectionView，九宫格布局等使用
  * @param numberOfItemForRow 每一行有多少个cell
  * @param lineSpacing cell上下间距
@@ -54,6 +65,27 @@ static char HYCollectionViewPropertyKey;
                          itemAtIndexPath:(void (^)(UICollectionViewCell *cell, NSIndexPath *indexPath))itemAtIndexPath
 {
     [(HYSingleCollectionView *)self.collectionView setupSingleCollectionCountForRow:numberOfItemForRow lineSpacing:lineSpacing interitemSpacing:interitemSpacing itemAtIndexPath:itemAtIndexPath];
+}
+
+/**
+ * 简单的collectionView，九宫格布局等使用
+ * @param numberOfItemForRow 每一行有多少个cell
+ * @param lineSpacing cell上下间距
+ * @param interitemSpacing cell左右间距
+ * @param itemAtIndexPath 每一个cell单独设置回调
+ * @param heightForHeader 头部高度
+ * @param titleForSectionHeader 头部标题
+ * @param sectionHeaderBlock 头部设置
+ */
+- (void)setupSingleCollectionCountForRow:(NSInteger)numberOfItemForRow
+                             lineSpacing:(CGFloat)lineSpacing
+                        interitemSpacing:(CGFloat)interitemSpacing
+                         itemAtIndexPath:(void (^)(UICollectionViewCell *cell, NSIndexPath *indexPath))itemAtIndexPath
+                         heightForHeader:(CGFloat (^)(NSInteger section))heightForHeader
+                   titleForSectionHeader:(NSString *(^)(NSInteger section))titleForSectionHeader
+                      sectionHeaderBlock:(void (^)(UIView *sectionHeaderBgView,UILabel *sectionHeaderTextLabel, NSInteger section))sectionHeaderBlock
+{
+    [(HYSingleCollectionView *)self.collectionView setupSingleCollectionCountForRow:numberOfItemForRow lineSpacing:lineSpacing interitemSpacing:interitemSpacing itemAtIndexPath:itemAtIndexPath heightForHeader:heightForHeader titleForSectionHeader:titleForSectionHeader sectionHeaderBlock:sectionHeaderBlock];
 }
 
 

@@ -7,8 +7,9 @@
 
 #import "HYCollectionDataSource.h"
 #import "UIView+HYFrame.h"
+#import "CHTCollectionViewWaterfallLayout.h"
 
-@interface HYCollectionDataSource ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface HYCollectionDataSource ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,CHTCollectionViewDelegateWaterfallLayout>
 
 // collectionView
 @property (nonatomic, weak) UICollectionView *collectionView;
@@ -104,6 +105,50 @@
     }
 }
 
+
+// 头部大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    if (self.sizeForHeaderInSection) {
+        return self.sizeForHeaderInSection(collectionView,section);
+    }else {
+        return CGSizeZero;
+    }
+}
+
+// 尾部大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+{
+    if (self.sizeForFooterInSection) {
+        return self.sizeForFooterInSection(collectionView,section);
+    }else {
+        return CGSizeZero;
+    }
+}
+
+// 头部/尾部view
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView *reusableView = nil;
+    
+    // 区头
+    if (kind == UICollectionElementKindSectionHeader) {
+        if (self.viewForHeaderAtIndexPath) {
+            reusableView = self.viewForHeaderAtIndexPath(collectionView,indexPath);
+        }
+    }
+    
+    
+    // 区尾
+    if (kind == UICollectionElementKindSectionFooter) {
+        if (self.viewForFooterAtIndexPath) {
+            reusableView = self.viewForFooterAtIndexPath(collectionView,indexPath);
+        }
+    }
+    
+    return reusableView;
+}
+
 #pragma mark - UICollectionViewDelegateFlowLayout
 // item大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -111,9 +156,13 @@
     if (self.sizeForItemAtIndexPath) {
         return self.sizeForItemAtIndexPath(indexPath);
     }else {
-        // 根据设置的item间距计算
+        // 根据设置的item间距计算item size
         CGFloat itemW = 0;
-        UICollectionViewScrollDirection scrollDirection = [(UICollectionViewFlowLayout *)collectionViewLayout scrollDirection];
+        UICollectionViewScrollDirection scrollDirection = UICollectionViewScrollDirectionVertical;
+        if ([collectionViewLayout respondsToSelector:@selector(scrollDirection)]) {
+            scrollDirection = [(UICollectionViewFlowLayout *)collectionViewLayout scrollDirection];
+        }
+
         if (scrollDirection == UICollectionViewScrollDirectionVertical) {
             // 垂直滚动
             CGFloat horizontalSpace = self.minimumInteritemSpacingForSectionAtIndex ? self.minimumInteritemSpacingForSectionAtIndex(indexPath.section) : self.interitemSpacingDefault;
@@ -151,6 +200,17 @@
         return self.interitemSpacingDefault;
     }
 }
+
+#pragma mark - CHTCollectionViewDelegateWaterfallLayout
+// 瀑布流相关代理
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+//   
+////    ItemModel *model = [self.dataArray objectAtIndex:indexPath.row];
+////    if (!CGSizeEqualToSize(model.imageSize, CGSizeZero)) {
+////        return model.imageSize;
+////    }
+//    return CGSizeMake(150, 150);
+//}
 
 
 #pragma mark - 懒加载

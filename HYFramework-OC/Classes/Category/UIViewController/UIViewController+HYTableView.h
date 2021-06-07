@@ -29,15 +29,27 @@ NS_ASSUME_NONNULL_BEGIN
  * 设置简单的tableView
  * @param rowHeight 行高
  * @param cellStyle cell类型
- * @param titleForSectionHeader section头部显示内容
- * @param sectionHeader sectionHeader修改回调
  * @param cellForRow cell修改回调
  */
 - (void)setupSingleTableRowH:(CGFloat)rowHeight
                    cellStyle:(UITableViewCellStyle)cellStyle
-       titleForSectionHeader:(nullable NSString *(^)(NSInteger section))titleForSectionHeader
-               sectionHeader:(nullable void (^)(UIView *sectionHeaderBgView,UILabel *sectionHeaderTextLabel, NSInteger section))sectionHeader
                   cellForRow:(void (^)(HYBaseTableViewCell *cell,NSIndexPath *indexPath))cellForRow;
+
+/**
+ * 设置简单的tableView
+ * @param rowHeight 行高
+ * @param cellStyle cell类型
+ * @param cellForRow cell修改回调
+ * @param headerHeight section头部高度
+ * @param titleForSectionHeader section头部显示内容
+ * @param sectionHeaderBlock section头部修改回调
+ */
+- (void)setupSingleTableRowH:(CGFloat)rowHeight
+                   cellStyle:(UITableViewCellStyle)cellStyle
+                  cellForRow:(void (^)(HYBaseTableViewCell *cell,NSIndexPath *indexPath))cellForRow
+                headerHeight:(nullable CGFloat (^)(NSInteger section))headerHeight
+       titleForSectionHeader:(NSString *(^)(NSInteger section))titleForSectionHeader
+          sectionHeaderBlock:(void (^)(UIView *sectionHeaderBgView,UILabel *sectionHeaderTextLabel, NSInteger section))sectionHeaderBlock;
 
 @end
 

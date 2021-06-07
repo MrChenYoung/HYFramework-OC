@@ -39,28 +39,18 @@ NS_ASSUME_NONNULL_BEGIN
 // item左右间距
 @property (nonatomic, copy) CGFloat (^minimumInteritemSpacingForSectionAtIndex)(NSInteger section);
 
-
-
-//minimumLineSpacingForSectionAtIndex
-
 #pragma mark - section 头部&尾部
-// sectionHeader title
-@property (nonatomic, copy) NSString *(^titleForHeaderInSection)(UITableView *table, NSInteger section);
-
-//section header 高度
-@property (nonatomic, copy) CGFloat (^heightForHeaderInSection)(UITableView *table, NSInteger section);
+// sectionHeader size
+@property (nonatomic, copy) CGSize (^sizeForHeaderInSection)(UICollectionView *collectionView, NSInteger section);
 
 // sectionHeader view
-@property (nonatomic, copy) UIView *(^viewForHeaderInSection)(UITableView *table, NSInteger section);
+@property (nonatomic, copy) UICollectionReusableView *(^viewForHeaderAtIndexPath)(UICollectionView *collectionView, NSIndexPath *indexPath);
 
-// sectionFooter title
-@property (nonatomic, copy) NSString *(^titleForFooterInSection)(UITableView *table, NSInteger section);
-
-//section footer 高度
-@property (nonatomic, copy) CGFloat (^heightForFooterInSection)(UITableView *table, NSInteger section);
+// sectionFooter size
+@property (nonatomic, copy) CGSize (^sizeForFooterInSection)(UICollectionView *collectionView, NSInteger section);
 
 // sectionFooter view
-@property (nonatomic, copy) UIView *(^viewForFooterInSection)(UITableView *table, NSInteger section);
+@property (nonatomic, copy) UICollectionReusableView *(^viewForFooterAtIndexPath)(UICollectionView *collectionView, NSIndexPath *indexPath);
 
 #pragma mark - 工厂方法
 // 获取对象

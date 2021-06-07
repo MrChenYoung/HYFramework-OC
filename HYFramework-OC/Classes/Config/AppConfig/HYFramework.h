@@ -56,6 +56,7 @@
 #import "HYBaseModel.h"
 #import "HYBaseView.h"
 #import "HYBaseTableViewCell.h"
+#import "HYBaseCollectionViewCell.h"
 #import "HYBaseViewController.h"
 #import "HYNavigationController.h"
 
@@ -66,6 +67,10 @@
 #import "HYSingleTableView.h"
 #import "HYCollectionView.h"
 #import "HYSingleCollectionView.h"
+#import "HYCollectionSectionView.h"
+#import "HYCollectionHeaderView.h"
+#import "HYCollectionFooterView.h"
+#import "HYWaterFallFlowView.h"
 
 #import "HYJsonTool.h"
 #import "HYAPPTool.h"

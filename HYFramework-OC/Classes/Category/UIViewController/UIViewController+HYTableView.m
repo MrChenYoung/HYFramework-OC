@@ -46,17 +46,32 @@ static char HYTableViewPropertyKey;
  * 设置简单的tableView
  * @param rowHeight 行高
  * @param cellStyle cell类型
- * @param titleForSectionHeader section头部显示内容
- * @param sectionHeader sectionHeader修改回调
  * @param cellForRow cell修改回调
  */
 - (void)setupSingleTableRowH:(CGFloat)rowHeight
                    cellStyle:(UITableViewCellStyle)cellStyle
-       titleForSectionHeader:(NSString *(^)(NSInteger section))titleForSectionHeader
-               sectionHeader:(void (^)(UIView *sectionHeaderBgView,UILabel *sectionHeaderTextLabel, NSInteger section))sectionHeader
                   cellForRow:(void (^)(HYBaseTableViewCell *cell,NSIndexPath *indexPath))cellForRow
 {
-    [(HYSingleTableView *)self.tableView setupSingleTableRowH:rowHeight cellStyle:cellStyle titleForSectionHeader:titleForSectionHeader sectionHeader:sectionHeader cellForRow:cellForRow];
+    [(HYSingleTableView *)self.tableView setupSingleTableRowH:rowHeight cellStyle:cellStyle cellForRow:cellForRow];
+}
+
+/**
+ * 设置简单的tableView
+ * @param rowHeight 行高
+ * @param cellStyle cell类型
+ * @param cellForRow cell修改回调
+ * @param headerHeight section头部高度
+ * @param titleForSectionHeader section头部显示内容
+ * @param sectionHeaderBlock section头部修改回调
+ */
+- (void)setupSingleTableRowH:(CGFloat)rowHeight
+                   cellStyle:(UITableViewCellStyle)cellStyle
+                  cellForRow:(void (^)(HYBaseTableViewCell *cell,NSIndexPath *indexPath))cellForRow
+                headerHeight:(nullable CGFloat (^)(NSInteger section))headerHeight
+       titleForSectionHeader:(NSString *(^)(NSInteger section))titleForSectionHeader
+          sectionHeaderBlock:(void (^)(UIView *sectionHeaderBgView,UILabel *sectionHeaderTextLabel, NSInteger section))sectionHeaderBlock
+{
+    [(HYSingleTableView *)self.tableView setupSingleTableRowH:rowHeight cellStyle:cellStyle cellForRow:cellForRow headerHeight:headerHeight titleForSectionHeader:titleForSectionHeader sectionHeaderBlock:sectionHeaderBlock];
 }
 
 #pragma mark - 关联属性

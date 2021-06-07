@@ -41,11 +41,17 @@
     
     // 设置成简单的tableView
     WeakSelf
-    [self setupSingleTableRowH:60 cellStyle:UITableViewCellStyleDefault titleForSectionHeader:nil sectionHeader:nil cellForRow:^(HYBaseTableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath) {
+    [self setupSingleTableRowH:60 cellStyle:UITableViewCellStyleDefault cellForRow:^(HYBaseTableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath) {
         HYBaseModel *model = Weakself.dataArray[indexPath.row];
         cell.textLabel.text = model.content;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }];
+    
+//    [self setupSingleTableRowH:60 cellStyle:UITableViewCellStyleDefault titleForSectionHeader:nil sectionHeader:nil cellForRow:^(HYBaseTableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath) {
+//        HYBaseModel *model = Weakself.dataArray[indexPath.row];
+//        cell.textLabel.text = model.content;
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    }];
     
     // 设置数据
     [self.tableView.hyDataSource resetDataWithArray:self.dataArray];

@@ -58,7 +58,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   # 资源文件
   s.resource_bundles = {
-    'HYFramework-OC' => ['HYFramework-OC/Assets/*.png']
+    'HYFramework-OC' => ['HYFramework-OC/Assets/*.png','HYFramework-OC/Assets/*.jpg','HYFramework-OC/Assets/*.jpeg']
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
@@ -80,5 +80,6 @@ Pod::Spec.new do |s|
   s.dependency 'YYModel', '~>1.0.4'
   # 图片选择/预览
   s.dependency 'ZLPhotoBrowser', '~>3.2.0'
-
+  # 瀑布流布局
+  s.dependency 'CHTCollectionViewWaterfallLayout', '~> 0.9.2'
 end

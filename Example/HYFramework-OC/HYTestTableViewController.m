@@ -23,58 +23,26 @@
 {
     [super setupSubviews];
     
-//    [self setupTableView:nil];
+    HYWaterFallFlowView *flowView = [HYWaterFallFlowView flowCollectionView];
+    [self.view addSubview:flowView];
+    [flowView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
     
-    [self setupCollectionView:nil];
+    NSMutableArray *arrM = [NSMutableArray array];
+    for (int i = 1; i < 14; i++) {
+        HYImageVideoModel *imageModel = [HYImageVideoModel model];
+        NSString *imageName = [NSString stringWithFormat:@"flow%d",i];
+        imageModel.content = imageName;
+        imageModel.image = HYImageNamed(imageName);
+        [arrM addObject:imageModel];
+    }
+    flowView.imageListArray = [arrM copy];
+    
     // 添加刷新
     [self.collectionView addHeaderRefresh];
     [self.collectionView addFootRefresh];
 }
-
-- (void)hy_setupCollectionDataSource
-{
-    [self setupSingleCollectionCountForRow:3 lineSpacing:10 interitemSpacing:10 itemAtIndexPath:^(UICollectionViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath) {
-
-        UIView *v = UIView.new;
-        v.backgroundColor = HYColorRed;
-        [cell.contentView addSubview:v];
-        [v mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.height.mas_equalTo(30);
-            make.center.equalTo(cell.contentView);
-        }];
-        cell.backgroundColor = HYColorBgLight1;
-    }];
-    self.collectionView.hyDataSource.didSelectItemAtIndexPath = ^(UICollectionView * _Nonnull collection, NSIndexPath * _Nonnull indexPath) {
-        NSLog(@"第%ld个section,第%ld个item",(long)indexPath.section,(long)indexPath.item);
-    };
-
-//    [self.collectionView.hyDataSource resetDataWithArray:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
-    
-//    // 注册cell
-//    [self.collectionView registCell:@"UICollectionViewCell"];
-//    self.collectionView.hyDataSource.numberOfItemForRow = 3;
-//    // item个数
-//    self.collectionView.hyDataSource.numberOfItemsInSection = ^NSInteger(NSInteger section) {
-//        return 9;
-//    };
-////    self.collectionView.hyDataSource.sizeForItemAtIndexPath = ^CGSize(NSIndexPath * _Nonnull indexPath) {
-////        return CGSizeMake(100, 100);
-////    };
-//    self.collectionView.hyDataSource.minimumLineSpacingForSectionAtIndex = ^CGFloat(NSInteger section) {
-//        return 2;
-//    };
-//    self.collectionView.hyDataSource.minimumInteritemSpacingForSectionAtIndex = ^CGFloat(NSInteger section) {
-//        return 2;
-//    };
-//    // cell
-//    self.collectionView.hyDataSource.cellForItemAtIndexPath = ^UICollectionViewCell * _Nonnull(UICollectionView * _Nonnull collection, NSIndexPath * _Nonnull indexPath) {
-//        UICollectionViewCell *cell = [collection dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
-//        cell.backgroundColor = HYColorRed;
-//        return cell;
-//    };
-
-}
-
 
 
 - (void)hy_reloadData
@@ -98,26 +66,44 @@
 // 设置tableDatasource
 - (void)hy_setupTableDataSource
 {
-    [self setupSingleTableRowH:60 cellStyle:UITableViewCellStyleSubtitle titleForSectionHeader:^NSString * _Nonnull(NSInteger section) {
-        return [NSString stringWithFormat:@"第%ld个section",section];
-    } sectionHeader:^(UIView * _Nonnull sectionHeaderBgView, UILabel * _Nonnull sectionHeaderTextLabel, NSInteger section) {
-        
-    } cellForRow:^(HYBaseTableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath) {
+//    [self setupSingleTableRowH:60 cellStyle:UITableViewCellStyleSubtitle cellForRow:^(HYBaseTableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath) {
+//        cell.textLabel.text = @"标题";
+//        cell.detailTextLabel.text = @"副标题";
+//    }];
+    
+    [self setupSingleTableRowH:60 cellStyle:UITableViewCellStyleSubtitle cellForRow:^(HYBaseTableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath) {
         cell.textLabel.text = @"标题";
         cell.detailTextLabel.text = @"副标题";
+    } headerHeight:^CGFloat(NSInteger section) {
+        return 50;
+    } titleForSectionHeader:^NSString * _Nonnull(NSInteger section) {
+        return [NSString stringWithFormat:@"第%ld个section",section];
+    } sectionHeaderBlock:^(UIView * _Nonnull sectionHeaderBgView, UILabel * _Nonnull sectionHeaderTextLabel, NSInteger section) {
+        
     }];
+    
+//    [self setupSingleTableRowH:60 cellStyle:UITableViewCellStyleSubtitle titleForSectionHeader:^NSString * _Nonnull(NSInteger section) {
+//        return [NSString stringWithFormat:@"第%ld个section",section];
+//    } sectionHeader:^(UIView * _Nonnull sectionHeaderBgView, UILabel * _Nonnull sectionHeaderTextLabel, NSInteger section) {
+//        
+//    } cellForRow:^(HYBaseTableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath) {
+//        cell.textLabel.text = @"标题";
+//        cell.detailTextLabel.text = @"副标题";
+//    }];
     self.tableView.hyDataSource.numberOfSections = ^NSInteger{
-        return 0;
+        return 2;
     };
     self.tableView.hyDataSource.numberOfRowsInSection = ^NSInteger(NSInteger section) {
-        if (section == 0) {
-            return 0;
-        }else {
-            return 10;
-        }
+//        if (section == 0) {
+//            return 0;
+//        }else {
+//            return 10;
+//        }
+        return 10;
     };
     
-//    [self.tableView.hyDataSource resetDataWithArray:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
+    [self.tableView.hyDataSource resetDataWithArray:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
 }
+
 
 @end
